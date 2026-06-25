@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const principles = [
+  { n: "01", text: "Sahadan başla, slayt değil. Hiçbir teklif, müşteriyi görmeden verilmez." },
+  { n: "02", text: "En düşük katmandan başla; en yükseğe ancak zorunda kalırsan çık." },
+  { n: "03", text: "Açık kaynağı tercih et, müşterinin bağımsızlığını koru. Vendor lock-in tasarım kusurudur." },
+  { n: "04", text: "Telegram bir kısıt değil, kaldıraçtır. Müşterinin zaten olduğu yere inşa et." },
+  { n: "05", text: "Custom kod son çaredir, ilk değil. Standardın %80'ini yapan açık kaynağı bulduysan özel yazma." },
+  { n: "06", text: "Sahiplenmeyi öğret. Müşteriye 'neden' ve 'nasıl'ı anlat. Kara kutu teslim etme." },
+  { n: "07", text: "Rapordan çok çalışan şey teslim et. PowerPoint, sadece kapanışta olur." },
+  { n: "08", text: 'Dürüst ol. "Bu iş size uymaz" diyebilmek, 6 ay sonra "keşke" demekten iyidir.' },
+  { n: "09", text: "Veri egemenliği. Müşteri verisi müşteride kalır. Yurt dışına gereksiz byte göndermeyiz." },
+  { n: "10", text: "Yavaş ölçekle. 5 iyi müşteri, 50 kötü müşteriden iyidir." }
+];
+---
+
+<Layout
+  title="Manifesto — Postfabrica"
+  description="Postfabrica'nın 10 temel ilkesi. Sahadan başla, açık kaynağı tercih et, vendor lock-in tasarlama, Telegram'ı kaldıraç olarak kullan."
+>
+  <Nav />
+  <main id="main" class="container-wide py-20 md:py-28">
+    <div class="max-w-3xl mb-16">
+      <p class="label mb-4">Manifesto</p>
+      <h1 class="display text-5xl md:text-7xl font-medium tracking-tight mb-6">
+        10 ilke.
+      </h1>
+      <p class="text-lg text-ink/70 leading-relaxed">
+        Postfabrica'nın iş yapma biçimi. Müşteriyle, kendi içimizle, araçlarla ilişkimizin temeli.
+      </p>
+    </div>
+
+    <ol class="space-y-3 max-w-3xl">
+      {principles.map((p) => (
+        <li class="flex gap-5 p-5 md:p-6 rounded-xl bg-paper border border-line">
+          <span class="font-mono text-xs text-muted shrink-0 pt-1">{p.n}</span>
+          <p class="text-ink/85 leading-relaxed text-lg">{p.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-16 max-w-3xl border-l-2 border-accent pl-6 py-2">
+      <p class="text-ink/80 leading-relaxed">
+        Bu ilkeler tartışmaya açıktır. Müşterilerimiz, çalışanlarımız ve gelecekteki ortaklarımız bunlara itiraz edebilir; daha iyisini önerebilir. Manifesto, kendimizi düzeltmek için yazıldı — savunmak için değil.
+      </p>
+    </div>
+
+    <div class="mt-16">
+      <a href="/" class="btn-ghost">← Ana sayfaya dön</a>
+    </div>
+  </main>
+  <Footer />
+</Layout>

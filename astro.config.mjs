@@ -1,11 +1,19 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
 
-import tailwindcss from '@tailwindcss/vite';
-
-// https://astro.build/config
+// Postfabrica landing page — Astro 7 + Tailwind v4 (Vite plugin)
+// Build output: ./dist (Cloudflare Pages, Netlify, GitHub Pages ile uyumlu)
 export default defineConfig({
+  site: "https://postfabrica-landing-page.pages.dev",
+  trailingSlash: "ignore",
+  integrations: [
+    sitemap(),
+  ],
+  build: {
+    format: "directory",
+  },
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });

@@ -4,12 +4,17 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
 }
 
 const {
   title = "Postfabrica — KOBİ'ler için saha-odaklı AI & otomasyon ortağı",
-  description = "Excel, WhatsApp ve dağınık SaaS yığınınızı, 1 saatlik saha denetiminden başlayarak Telegram-odaklı, açık kaynak ve self-hosted bir AI operasyon katmanına dönüştürüyoruz. Türkiye'nin 5-50 kişilik KOBİ'leri için."
+  description = "Excel, WhatsApp ve dağınık SaaS yığınınızı, 1 saatlik saha denetiminden başlayarak Telegram-odaklı, açık kaynak ve self-hosted bir AI operasyon katmanına dönüştürüyoruz. Türkiye'nin 5-50 kişilik KOBİ'leri için.",
+  ogImage = "/og.png"
 } = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? "https://postfabrica-landing-page.pages.dev";
+const fullOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl.replace(/\/$/, "")}${ogImage}`;
 ---
 
 <!doctype html>
@@ -19,17 +24,39 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafaf9" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content="Postfabrica" />
+    <meta property="og:url" content={Astro.url.toString()} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Postfabrica — Fabrikanız post-fabrikanız olsun." />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={fullOgImage} />
+
+    <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+
+    <link rel="canonical" href={Astro.url.toString()} />
+
     <title>{title}</title>
   </head>
   <body class="bg-paper text-ink antialiased">

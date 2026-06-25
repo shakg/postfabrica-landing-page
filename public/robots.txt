@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://postfabrica-landing-page.pages.dev/sitemap-index.xml

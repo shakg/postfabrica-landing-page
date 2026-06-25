@@ -2,58 +2,58 @@
 const steps = [
   {
     n: "01",
-    title: "Saha denetimi",
+    title: "Darboğazı yerinde buluruz",
     duration: "1 saat",
-    body: "İşletmenize geliyoruz (ya da video ile). 1 saat içinde gerçek tıkanma noktalarını gözlemliyoruz.",
-    output: "1 sayfalık akış haritası + 3 net öneri"
+    body: "İşletmenize geliriz ya da video ile ekranınızı izleriz. Kim neyi, nereden alıp nereye yazıyor netleştiririz.",
+    output: "1 sayfalık akış haritası + 3 öncelikli fırsat"
   },
   {
     n: "02",
-    title: "Katmanlı çözüm",
+    title: "En küçük çalışan çözümü kurarız",
     duration: "2-10 hafta",
-    body: "Her soruna en düşük katmandan başlayan çözüm sunarız. Açık kaynağı tercih eden, vendor lock-in tasarlamayan bir mimari kurarız.",
-    output: "Çalışan workflow’lar + self-host kurulum + botlar"
+    body: "Büyük dönüşüm vaadiyle başlamayız. Önce en görünür zaman kaybını alır, çalışır hale getiririz.",
+    output: "Otomasyon akışları + kurulum + botlar"
   },
   {
     n: "03",
-    title: "Telegram operasyon katmanı",
+    title: "Ekibi yeni ekrana zorlamayız",
     duration: "1. günden itibaren",
-    body: "Çözümler ekibinizin zaten kullandığı Telegram’a taşınır. Uygulama indirmeye gerek kalmaz.",
-    output: "Stok, sipariş, onay, rapor botları"
+    body: "Onay, uyarı ve raporları ekibin zaten kullandığı Telegram’a taşırız. Yeni panel ancak gerçekten gerekiyorsa açılır.",
+    output: "Sipariş, stok, onay ve rapor botları"
   },
   {
     n: "04",
-    title: "Sürekli dokunuş",
-    duration: "aylık retainer",
-    body: "Teslim sonrası bırakmıyoruz. Workflow’lar bozulur, yeni ihtiyaç çıkar; tune-up ve destek paketleriyle yanınızdayız.",
-    output: "Aylık tune-up + saatlik destek"
+    title: "Teslim edip kaybolmayız",
+    duration: "aylık destek",
+    body: "İş değişir, ekip değişir, ihtiyaç büyür. Akışları izler, düzeltir ve yeni fırsatları birlikte seçeriz.",
+    output: "Aylık bakım + saatlik destek"
   }
 ];
 
 const layers = [
   {
     code: "L0",
-    name: "Var olanı bağla",
-    when: "Süreç kırılması, veri siloları",
+    name: "Var olan araçları konuştur",
+    when: "Aynı veri elle taşınıyor",
     tools: "n8n · Make · Zapier"
   },
   {
     code: "L1",
-    name: "Self-hosted / Açık kaynak",
-    when: "Standart SaaS pahalı ya da yetersiz",
+    name: "Kendi sunucunuzda açık kaynak",
+    when: "Abonelik pahalı; veri sizde kalsın",
     tools: "n8n · Twenty CRM · Dolibarr · Nextcloud"
   },
   {
     code: "L2",
-    name: "AI destekli workflow",
-    when: "Tekrarlayan içerik, sınıflandırma, özetleme, RAG",
-    tools: "n8n + Ollama/OpenAI · embeddings"
+    name: "AI destekli otomasyon",
+    when: "Okuma, özetleme, sınıflandırma, teklif taslağı",
+    tools: "n8n + Ollama/OpenAI · vektör arama"
   },
   {
     code: "L3",
-    name: "Özel geliştirme",
-    when: "Standart hiçbir şey uymuyor",
-    tools: "Python · FastAPI · özel dashboard · bot"
+    name: "Özel yazılım ve köprüler",
+    when: "Standart araç yetmiyor; ERP bağlantısı şart",
+    tools: "Python · FastAPI · özel panel · bot"
   }
 ];
 ---
@@ -63,10 +63,10 @@ const layers = [
     <div class="max-w-2xl mb-14">
       <p class="label mb-4">Yöntem</p>
       <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
-        Saha → Analiz → Katmanlı çözüm → Sürekli dokunuş.
+        Önce görürüz. Sonra en küçük çalışan sistemi kurarız.
       </h2>
       <p class="mt-6 text-ink/70 leading-relaxed">
-        PowerPoint teslim etmiyoruz. 1 saatte başlıyoruz, çalışan şey teslim ediyoruz, çalıştığı sürece yanında duruyoruz.
+        PowerPoint teslim edip gitmeyiz. 1 saatte başlar, çalışan akış teslim eder, çalıştığı sürece yanında dururuz.
       </p>
     </div>
 
@@ -91,10 +91,10 @@ const layers = [
     <div class="mt-20">
       <div class="flex items-baseline justify-between mb-8">
         <h3 class="text-2xl md:text-3xl font-medium tracking-tight">
-          4 katmanlı çözüm mimarisi
+          Önce basit çözüm. Yetmezse bir katman yukarı.
         </h3>
         <span class="hidden md:inline text-xs font-mono text-muted">
-          alt ↑ ucuz &amp; hızlı · üst ↓ pahalı &amp; nadir
+          alt ↑ hızlı &amp; düşük maliyet · üst ↓ kapsamlı &amp; nadir
         </span>
       </div>
 
@@ -121,7 +121,7 @@ const layers = [
       </div>
 
       <p class="mt-6 text-sm text-ink/70 max-w-3xl">
-        <strong class="text-ink">Altın kural:</strong> her zaman en düşük katmandan başla. L3, L2 yetmiyorsa başvurulan son çaredir — hem bütçeyi korur hem de “over-engineering” yaparak müşteriyi bağımlı hale getirmeyi engeller.
+        <strong class="text-ink">Altın kural:</strong> ihtiyaç çözülüyorsa daha pahalı katmana çıkmayız. Bu yaklaşım bütçeyi korur, sistemi sade tutar ve sizi tek bir tedarikçiye bağımlı hale getirmez.
       </p>
     </div>
   </div>

@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = "Postfabrica — KOBİ’ler için saha-odaklı AI & otomasyon ortağı",
-  description = "Excel, WhatsApp ve dağınık SaaS yığınınızı, 1 saatlik saha denetiminden başlayarak Telegram-odaklı, açık kaynak ve self-hosted bir AI operasyon katmanına dönüştürüyoruz. Türkiye’nin 5-50 kişilik KOBİ’leri için.",
+  title = "Postfabrica — KOBİ’ler için AI otomasyon ve operasyon danışmanlığı",
+  description = "WhatsApp, Excel ve dağınık araçlar arasında sıkışan işleri 1 saatlik denetimle ortaya çıkarıyor; Telegram’dan çalışan, açık kaynaklı ve size ait otomasyonlara dönüştürüyoruz.",
   ogImage = "/og.png"
 } = Astro.props;
 
@@ -36,7 +36,7 @@ const fullOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl.replace(/\
     <meta property="og:image" content={fullOgImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Postfabrica — Fabrikanız post-fabrikanız olsun." />
+    <meta property="og:image:alt" content="Postfabrica — WhatsApp’ta dönen iş, işletme sistemi değildir." />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />

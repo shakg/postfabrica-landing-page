@@ -4,55 +4,55 @@ const sectors = [
     code: "A",
     name: "Toptan / e-ticaret dağıtım",
     bullets: [
-      "Çok sipariş, çok Excel, çok WhatsApp",
-      "Stok, fatura, kargo üçgeninde kaotik manuel iş",
-      "Müşteri kanalı çoğunlukla WhatsApp / Instagram DM"
+      "Sipariş kanalları çoğaldı; kayıt tek yerde değil",
+      "Stok, fatura ve kargo bilgisi elle taşınıyor",
+      "WhatsApp / Instagram DM satış akışının merkezi"
     ]
   },
   {
     code: "B",
     name: "Küçük üretim / atölye",
     bullets: [
-      "Stok + tedarik + sipariş takibi kaotik",
-      "Üretimden teslimata kadar gölge süreçler",
-      "Sahadan ofise bilgi akışı kırık"
+      "Hammadde, stok ve üretim takibi ayrı yerlerde",
+      "Usta, ofis ve sevkiyat aynı bilgiye aynı anda bakamıyor",
+      "Teslim tarihi hâlâ telefonda soruluyor"
     ]
   },
   {
     code: "C",
     name: "Ajans / kreatif stüdyo (5-15 kişi)",
     bullets: [
-      "Proje dağınıklığı, müşteri iletişimi çok kanallı",
-      "Brief’ler mailde, dosyalar Drive’da, takvim Notion’da",
-      "Teklif → iş → fatura döngüsü kopuk"
+      "Brief, dosya, onay ve fatura farklı yerlerde",
+      "Müşteri istekleri kanallar arasında kayboluyor",
+      "Tekliften tahsilata takip kişilere bağlı"
     ]
   },
   {
     code: "D",
     name: "Muhasebe / danışmanlık bürosu",
     bullets: [
-      "Dosya, müvekkil, hatırlatma kaosu",
-      "Beyanname dönemleri manuel yoğunluğu",
-      "Müvekkil iletişiminde WhatsApp ağırlığı"
+      "Müşteri evrakı, hatırlatma ve son tarih takibi manuel",
+      "Beyan döneminde tekrar eden mesaj ve kontrol yükü artıyor",
+      "WhatsApp konuşmaları dosya düzeninin yerini alıyor"
     ]
   },
   {
     code: "E",
     name: "Lojistik / nakliye KOBİ",
     bullets: [
-      "WhatsApp’tan gelen teklif, manuel plaka, kağıt iş",
-      "Şoför-saha-ofis bilgi kopukluğu",
-      "Sevkiyat onayı telefonda"
+      "Teklif WhatsApp’ta, plaka ve rota ayrı yerde",
+      "Şoför, saha ve ofis arasında bilgi geç kalıyor",
+      "Sevkiyat onayı telefonda kalıyor"
     ]
   }
 ];
 
 const anti = [
-  "Kurumsal (250+ çalışan) — satış döngüsü uzun",
-  "“Bir uygulama yapalım” diyenler — süreç danışmanlığı yapıyoruz",
-  "Sadece web sitesi isteyenler",
-  "“AI ile zengin olalım” belirsizliği",
-  "Devlet ihaleleri / büyük kamu kurumları"
+  "250+ çalışanlı kurumsal yapılar",
+  "Sadece web sitesi veya tekil uygulama isteyenler",
+  "Süreç göstermeden “AI kuralım” diyenler",
+  "Verisini ve işleyişini paylaşmak istemeyenler",
+  "Uzun ihale / satın alma süreci gerektiren kamu işleri"
 ];
 ---
 
@@ -61,7 +61,7 @@ const anti = [
     <div class="max-w-2xl mb-14">
       <p class="label mb-4">Hedef Müşteri</p>
       <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
-        5-50 kişilik, büyüyen ama dağılan KOBİ’ler.
+        Ekibi büyürken işi dağılan KOBİ’ler için.
       </h2>
     </div>
 
@@ -90,7 +90,7 @@ const anti = [
       <article class="card bg-ink text-paper border-ink">
         <p class="label text-paper/50 mb-4">Hariç tutulanlar</p>
         <h3 class="text-lg font-medium tracking-tight mb-4">
-          Sizinle çalışmayız.
+          Bu durumda iyi eşleşmeyiz.
         </h3>
         <ul class="space-y-2 text-sm text-paper/80">
           {
@@ -107,7 +107,7 @@ const anti = [
 
     <div class="mt-14 max-w-3xl border-l-2 border-accent pl-6 py-2">
       <p class="text-ink/80 leading-relaxed">
-        <strong class="text-ink">Karar verici:</strong> genelde işletme sahibi veya ortağı — tek kişi. Teknoloji olgunluğu düşük-orta. Excel’i iyi bilir, SaaS kullanır ama entegre etmez. <span class="text-ink font-medium">“Cloud” derken aslında Dropbox kullanır.</span>
+        <strong class="text-ink">Karar verici</strong> genelde işletme sahibi veya ortağıdır. Excel’i iyi bilir, birkaç SaaS kullanır; ama hangi işin kime, hangi verinin hangi araca bağlı olduğunu artık net görmek ister.
       </p>
     </div>
   </div>

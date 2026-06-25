@@ -2,74 +2,74 @@
 const principles = [
   {
     n: "01",
-    text: "Sahadan başla, slayt değil."
+    text: "Sahaya bakmadan teklif verilmez."
   },
   {
     n: "02",
-    text: "En düşük katmandan başla; en yükseğe ancak zorunda kalırsan çık."
+    text: "Önce en düşük maliyetli katman denenir."
   },
   {
     n: "03",
-    text: "Açık kaynağı tercih et. Vendor lock-in tasarım kusurudur."
+    text: "Müşteriyi araca bağımlı bırakmak tasarım hatasıdır."
   },
   {
     n: "04",
-    text: "Telegram bir kısıt değil, kaldıraçtır."
+    text: "Ekip neredeyse sistem orada çalışır; çoğu zaman Telegram yeterlidir."
   },
   {
     n: "05",
-    text: "Custom kod son çaredir, ilk değil."
+    text: "Özel kod son çaredir; önce hazır ve açık kaynak çözümler değerlendirilir."
   },
   {
     n: "06",
-    text: "Sahiplenmeyi öğret. Kara kutu teslim etme."
+    text: "Kara kutu teslim edilmez; müşteri sistemi sahiplenir."
   },
   {
     n: "07",
-    text: "Rapordan çok çalışan şey teslim et."
+    text: "Rapor değil, çalışan akış teslim edilir."
   },
   {
     n: "08",
-    text: "Dürüst ol: “Bu iş size uymaz” diyebilmek, 6 ay sonra “keşke” demekten iyidir."
+    text: "Uymayan işe “uymaz” denir."
   },
   {
     n: "09",
-    text: "Veri egemenliği. Müşteri verisi müşteride kalır."
+    text: "Müşteri verisi müşteride kalır; gereksiz veri dışarı çıkmaz."
   },
   {
     n: "10",
-    text: "Yavaş ölçekle. 5 iyi müşteri, 50 kötü müşteriden iyidir."
+    text: "Az ama doğru müşteriyle derin çalışılır."
   }
 ];
 
 const faqs = [
   {
-    q: "Self-host’u biz mi yapacağız, siz mi?",
-    a: "İkisini de yapabiliriz. Tipik akış: siz altyapıyı (sunucu veya Hetzner/DO kirası) sağlarsınız, biz kurulumu yaparız. Siz de bakımı öğrenirsiniz. Yılda 5-10 saat ayırabilecek bir teknik eleman yoksa, retainer paketiyle biz yönetiriz."
+    q: "Kurulum nerede çalışacak?",
+    a: "Sizin hesabınızda, kendi sunucunuzda veya seçtiğiniz bulut altyapısında çalışabilir. Kurulumu biz yaparız; bakımını ister ekibinize devreder, ister aylık destekle biz üstleniriz."
   },
   {
-    q: "Verilerimiz Türkiye’de mi kalıyor?",
-    a: "Evet. Hetzner FSN1 (Almanya) veya kendi sunucunuz (on-prem) varsayılan. OpenAI / Claude gibi API’ler sadece sizin onayınızla ve gerekli minimum veriyle kullanılır. Tüm sistem self-host edilebilir; Ollama + açık LLM’lerle dış API bağımlılığı olmadan da çalışabilir."
+    q: "Verilerimiz dışarı çıkar mı?",
+    a: "Varsayılan yaklaşımımız veriyi mümkün olduğunca sizde tutmaktır. OpenAI / Claude gibi harici API’ler sadece açık onayınızla ve gerekli minimum veriyle kullanılır. İhtiyaç varsa dış API bağımlılığı olmadan da mimari kurabiliriz."
   },
   {
     q: "AI yanlış cevap verirse ne olur?",
-    a: "AI’ın ‘son sözü’ yoktur — kritik işlemlerde her zaman onay adımı var. Telegram botu ‘Yapayım mı?’ diye sorar, siz onaylarsınız. AI öneri üretir, karar insanda kalır. Bu tasarım ilkesidir."
+    a: "Kritik işlemlerde son karar insanda kalır. Bot size “yapayım mı?” diye sorar; siz onaylamadan ERP’ye yazmaz, müşteriye mesaj atmaz, ödeme veya sevkiyat başlatmaz."
   },
   {
     q: "Mevcut ERP’mize (Logo, Mikro, SAP) bağlanabilir misiniz?",
-    a: "Evet. P2 ve P3 paketlerinde bu köprüyü kuruyoruz. P1’de entegrasyon ihtiyacı olursa kapsam genişletmesiyle değerlendirilir."
+    a: "Evet. P2 ve P3 kapsamında ERP köprüleri kuruyoruz. P1’de böyle bir ihtiyaç çıkarsa önce teknik uygunluğu ve maliyeti netleştiririz."
   },
   {
-    q: "Sözleşme / fatura modeli nasıl?",
-    a: "Şirketiniz Türkiye’deyse TL üzerinden fatura. Şahıs şirketi / limited fark etmez; bizim tarafta sözleşme ve gizlilik anlaşması (NDA) standarttır. Kurumsal müşterilerde KDV ve stopaj mevzuatına uygun çalışırız."
+    q: "Ekibimiz yeni bir uygulama mı öğrenecek?",
+    a: "Çoğu durumda hayır. Onay, uyarı ve raporları Telegram’a taşırız. Yeni panel veya ekran gerekiyorsa da sadece gerçekten değer kattığı yerde kurarız."
   },
   {
-    q: "Ürettiğiniz workflow’lar bize mi ait?",
-    a: "Evet. Ödeme tamamlandığında workflow dosyaları, kodlar ve dokümanlar size aittir. İsterseniz kendi ekibiniz de geliştirebilir. ‘Vendor lock-in’ bizim işimiz değil."
+    q: "Ürettiğiniz akışlar bize mi ait?",
+    a: "Evet. Ödeme tamamlandığında otomasyon dosyaları, kodlar ve dokümanlar size aittir. İsterseniz kendi ekibiniz veya başka bir ekip sistemi geliştirmeye devam edebilir."
   },
   {
-    q: "Çalışanlarımız değişirse / ayrılırsa sistem çöker mi?",
-    a: "Hayır. Tüm workflow’lar dokümante edilir; Telegram botlarını yöneten kişi değişse bile bot çalışmaya devam eder. Eğitim videosu ve runbook bırakıyoruz."
+    q: "Bize ne kadar zaman ayırmanız gerekir?",
+    a: "Başlangıçta 15 dakikalık ön görüşme ve 1 saatlik denetim yeterlidir. Uygulama aşamasında haftalık kısa kontrol görüşmeleriyle ilerleriz; ekibinizi uzun toplantılara boğmayız."
   }
 ];
 ---
@@ -80,10 +80,10 @@ const faqs = [
       <div class="lg:col-span-5">
         <p class="label mb-4">Manifesto</p>
         <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
-          10 ilke.
+          Güven sözle değil, çalışma biçimiyle kurulur.
         </h2>
         <p class="mt-6 text-ink/70 leading-relaxed max-w-md">
-          Postfabrica’nın iş yapma biçimi. Müşteriyle, kendi içimizle, araçlarla ilişkimizin temeli.
+          Postfabrica’nın sözleşmeden önce de sonra da değişmeyen çizgisi: sahayı gör, sade kur, sahibini müşteri yap.
         </p>
       </div>
 
@@ -105,7 +105,7 @@ const faqs = [
   <div class="container-wide max-w-4xl">
     <p class="label mb-4">Sıkça Sorulanlar</p>
     <h2 class="display text-4xl md:text-5xl font-medium tracking-tight mb-12">
-      Aklınızdaki sorular.
+      Başvurmadan önce bilmek isteyecekleriniz.
     </h2>
 
     <div class="space-y-px bg-line border border-line rounded-2xl overflow-hidden">

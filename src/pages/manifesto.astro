@@ -4,32 +4,32 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 
 const principles = [
-  { n: "01", text: "Sahadan başla, slayt değil. Hiçbir teklif, müşteriyi görmeden verilmez." },
-  { n: "02", text: "En düşük katmandan başla; en yükseğe ancak zorunda kalırsan çık." },
-  { n: "03", text: "Açık kaynağı tercih et, müşterinin bağımsızlığını koru. Vendor lock-in tasarım kusurudur." },
-  { n: "04", text: "Telegram bir kısıt değil, kaldıraçtır. Müşterinin zaten olduğu yere inşa et." },
-  { n: "05", text: "Custom kod son çaredir, ilk değil. Standardın %80’ini yapan açık kaynağı bulduysan özel yazma." },
-  { n: "06", text: "Sahiplenmeyi öğret. Müşteriye ‘neden’ ve ‘nasıl’ı anlat. Kara kutu teslim etme." },
-  { n: "07", text: "Rapordan çok çalışan şey teslim et. PowerPoint, sadece kapanışta olur." },
-  { n: "08", text: "Dürüst ol. “Bu iş size uymaz” diyebilmek, 6 ay sonra “keşke” demekten iyidir." },
-  { n: "09", text: "Veri egemenliği. Müşteri verisi müşteride kalır. Yurt dışına gereksiz byte göndermeyiz." },
-  { n: "10", text: "Yavaş ölçekle. 5 iyi müşteri, 50 kötü müşteriden iyidir." }
+  { n: "01", text: "Sahaya bakmadan teklif verilmez. İşin nerede aktığını görmeden çözüm satılmaz." },
+  { n: "02", text: "Önce en düşük maliyetli katman denenir. Basit çözüm yetiyorsa pahalı çözüm önerilmez." },
+  { n: "03", text: "Müşteriyi araca bağımlı bırakmak tasarım hatasıdır. Kod, akış ve doküman müşteriye ait olur." },
+  { n: "04", text: "Ekip neredeyse sistem orada çalışır. Çoğu KOBİ için ilk doğru ekran Telegram’dır." },
+  { n: "05", text: "Özel kod son çaredir. Önce hazır, sürdürülebilir ve açık kaynak çözümler değerlendirilir." },
+  { n: "06", text: "Kara kutu teslim edilmez. Müşteri neyin neden çalıştığını anlayacak kadar sistemi sahiplenir." },
+  { n: "07", text: "Rapor değil, çalışan akış teslim edilir. Sunum ancak çalışan şeyin yanında anlamlıdır." },
+  { n: "08", text: "Uymayan işe “uymaz” denir. Kısa vadeli satış, uzun vadeli güvenin önüne geçmez." },
+  { n: "09", text: "Müşteri verisi müşteride kalır. Gereksiz veri dışarı çıkmaz, kritik karar insanda kalır." },
+  { n: "10", text: "Az ama doğru müşteriyle derin çalışılır. İyi otomasyon, işi ve insanı tanımadan kurulmaz." }
 ];
 ---
 
 <Layout
   title="Manifesto — Postfabrica"
-  description="Postfabrica’nın 10 temel ilkesi. Sahadan başla, açık kaynağı tercih et, vendor lock-in tasarlama, Telegram’ı kaldıraç olarak kullan."
+  description="Postfabrica’nın 10 temel ilkesi. Sahaya bakmadan teklif verme, sade çözüm kur, müşteriyi araca bağımlı bırakma, veriyi müşteride tut."
 >
   <Nav />
   <main id="main" class="container-wide py-20 md:py-28">
     <div class="max-w-3xl mb-16">
       <p class="label mb-4">Manifesto</p>
       <h1 class="display text-5xl md:text-7xl font-medium tracking-tight mb-6">
-        10 ilke.
+        Sistemi kurarız. Sahibinin siz olmasını isteriz.
       </h1>
       <p class="text-lg text-ink/70 leading-relaxed">
-        Postfabrica’nın iş yapma biçimi. Müşteriyle, kendi içimizle, araçlarla ilişkimizin temeli.
+        Postfabrica’nın iş yapma biçimi bu 10 ilkeye dayanır. Sözümüz sade: sahayı görür, gereksiz karmaşayı azaltır, çalışan akışı teslim ederiz.
       </p>
     </div>
 
@@ -44,7 +44,7 @@ const principles = [
 
     <div class="mt-16 max-w-3xl border-l-2 border-accent pl-6 py-2">
       <p class="text-ink/80 leading-relaxed">
-        Bu ilkeler tartışmaya açıktır. Müşterilerimiz, çalışanlarımız ve gelecekteki ortaklarımız bunlara itiraz edebilir; daha iyisini önerebilir. Manifesto, kendimizi düzeltmek için yazıldı — savunmak için değil.
+        Bu ilkeler kendimizi bağlamak için yazıldı. Daha iyi bir yol gördüğümüzde savunmaya değil, düzeltmeye bakarız.
       </p>
     </div>
 

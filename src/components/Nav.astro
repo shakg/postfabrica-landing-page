@@ -1,0 +1,36 @@
+---
+const nav = [
+  { href: "#yontem", label: "Yöntem" },
+  { href: "#paketler", label: "Paketler" },
+  { href: "#kimin-icin", label: "Kimler için" },
+  { href: "#sss", label: "SSS" },
+  { href: "#iletisim", label: "İletişim" }
+];
+---
+
+<header class="sticky top-0 z-40 backdrop-blur-md bg-paper/80 border-b border-line">
+  <div class="container-wide flex items-center justify-between h-16">
+    <a href="#top" class="flex items-center gap-2 group">
+      <span class="size-7 rounded-full bg-ink grid place-items-center text-paper text-[10px] font-mono tracking-tighter">
+        P/
+      </span>
+      <span class="font-medium tracking-tight">postfabrica</span>
+      <span class="hidden sm:inline text-muted text-xs font-mono ml-1">.co</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-7 text-sm text-muted">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="hover:text-ink transition-colors">
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a href="#iletisim" class="btn-primary text-sm py-2 px-4">
+      1 saat ayırın
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</header>

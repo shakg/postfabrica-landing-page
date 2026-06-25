@@ -1,0 +1,128 @@
+---
+const steps = [
+  {
+    n: "01",
+    title: "Saha denetimi",
+    duration: "1 saat",
+    body: "İşletmenize geliyoruz (ya da video ile). 1 saat içinde gerçek tıkanma noktalarını gözlemliyoruz.",
+    output: "1 sayfalık akış haritası + 3 net öneri"
+  },
+  {
+    n: "02",
+    title: "Katmanlı çözüm",
+    duration: "2-10 hafta",
+    body: "Her soruna en düşük katmandan başlayan çözüm. Açık kaynağı tercih eden, vendor lock-in tasarlamayan bir mimari.",
+    output: "Çalışan workflow'lar + self-host kurulum + botlar"
+  },
+  {
+    n: "03",
+    title: "Telegram operasyon katmanı",
+    duration: "1. günden itibaren",
+    body: "Çözümler ekibinizin zaten kullandığı Telegram'a yüzeye çıkar. Uygulama indirmeye gerek kalmaz.",
+    output: "Stok, sipariş, onay, rapor botları"
+  },
+  {
+    n: "04",
+    title: "Sürekli dokunuş",
+    duration: "aylık retainer",
+    body: "Teslim sonrası bırakmıyoruz. Workflow'lar bozulur, yeni ihtiyaç çıkar; tune-up ve destek paketleriyle yanınızdayız.",
+    output: "Aylık tune-up + saatlik destek"
+  }
+];
+
+const layers = [
+  {
+    code: "L0",
+    name: "Var olanı bağla",
+    when: "Süreç kırılması, veri siloları",
+    tools: "n8n · Make · Zapier · Hamcron"
+  },
+  {
+    code: "L1",
+    name: "Self-hosted / Açık kaynak",
+    when: "Standart SaaS pahalı ya da yetersiz",
+    tools: "n8n · Twenty CRM · Dolibarr · Nextcloud"
+  },
+  {
+    code: "L2",
+    name: "AI destekli workflow",
+    when: "Tekrarlayan içerik, sınıflandırma, özetleme, RAG",
+    tools: "n8n + Ollama/OpenAI · embeddings"
+  },
+  {
+    code: "L3",
+    name: "Özel geliştirme",
+    when: "Standart hiçbir şey uymuyor",
+    tools: "Python · FastAPI · özel dashboard · bot"
+  }
+];
+---
+
+<section id="yontem" class="py-20 md:py-28">
+  <div class="container-wide">
+    <div class="max-w-2xl mb-14">
+      <p class="label mb-4">Yöntem</p>
+      <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
+        Saha → Analiz → Katmanlı çözüm → Sürekli dokunuş.
+      </h2>
+      <p class="mt-6 text-ink/70 leading-relaxed">
+        PowerPoint teslim etmiyoruz. 1 saatte başlıyoruz, çalışan şey teslim ediyoruz, çalıştığı sürece yanında duruyoruz.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line rounded-2xl overflow-hidden">
+      {
+        steps.map((s) => (
+          <article class="bg-paper p-6 md:p-7 h-full flex flex-col">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="label text-ink">{s.n}</span>
+              <span class="text-[11px] font-mono text-muted">{s.duration}</span>
+            </div>
+            <h3 class="text-lg font-medium tracking-tight mb-2">{s.title}</h3>
+            <p class="text-sm text-ink/70 leading-relaxed flex-1">{s.body}</p>
+            <p class="mt-4 pt-3 border-t hairline text-xs text-muted">
+              <span class="text-ink font-medium">Çıktı:</span> {s.output}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-20">
+      <div class="flex items-baseline justify-between mb-8">
+        <h3 class="text-2xl md:text-3xl font-medium tracking-tight">
+          4 katmanlı çözüm mimarisi
+        </h3>
+        <span class="hidden md:inline text-xs font-mono text-muted">
+          alt ↑ ucuz & hızlı  ·  üst ↓ pahalı & nadir
+        </span>
+      </div>
+
+      <div class="space-y-px bg-line border border-line rounded-2xl overflow-hidden">
+        {
+          layers.map((l, i) => (
+            <div class="grid grid-cols-12 gap-4 items-center bg-paper p-5 md:p-6">
+              <div class="col-span-2 md:col-span-1">
+                <span class="font-mono text-2xl font-medium text-ink/90">{l.code}</span>
+              </div>
+              <div class="col-span-10 md:col-span-3">
+                <p class="font-medium">{l.name}</p>
+              </div>
+              <div class="col-span-12 md:col-span-4 text-sm text-ink/70">
+                <span class="md:hidden label">Ne zaman: </span>
+                {l.when}
+              </div>
+              <div class="col-span-12 md:col-span-4 font-mono text-xs text-muted">
+                {l.tools}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="mt-6 text-sm text-ink/70 max-w-3xl">
+        <strong class="text-ink">Altın kural:</strong> her zaman en düşük katmandan başla. L3, L2 yetmiyorsa başvurulan son çaredir — hem bütçeyi korur hem de "over-engineering" yaparak müşteriyi bağımlı hale getirmeyi engeller.
+      </p>
+    </div>
+  </div>
+</section>

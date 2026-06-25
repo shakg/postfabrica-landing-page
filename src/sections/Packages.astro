@@ -1,0 +1,147 @@
+---
+const packages = [
+  {
+    code: "P0",
+    name: "Postfabrica Denetimi",
+    tag: "giriş",
+    price: "ücretsiz*",
+    duration: "1 hafta",
+    summary: "İlk temas. Sahayı görürüz, 1 sayfa harita + 3 öneri sunarız.",
+    bullets: [
+      "1 saat saha veya video denetim",
+      "Akış haritası (1 sayfa)",
+      "3 net öneri (katman, araç, maliyet)",
+      "Sonrası size kalmış"
+    ],
+    highlight: false
+  },
+  {
+    code: "P1",
+    name: "Hızlı Kazanım",
+    tag: "en popüler",
+    price: "₺25-60k",
+    duration: "2-3 hafta",
+    summary: "Tek bir kritik akışı 1-2 haftada Telegram-odaklı bir workflow'a bağlıyoruz.",
+    bullets: [
+      "L0-L1 düzeyinde çözüm",
+      "1-2 n8n workflow",
+      "1 Telegram botu (stok / sipariş / onay / rapor)",
+      "Dokümantasyon + 30 gün garanti"
+    ],
+    highlight: true
+  },
+  {
+    code: "P2",
+    name: "Operasyon Dönüşümü",
+    tag: "tam kapsam",
+    price: "₺100-300k",
+    duration: "6-10 hafta",
+    summary: "Self-host kurulum + 3-5 workflow + dashboard + bot seti.",
+    bullets: [
+      "L1-L2 katmanları",
+      "Self-hosted CRM/ERP + proje + doküman yığını",
+      "3-5 entegre workflow",
+      "Yönetim dashboard'u (Metabase / özel)",
+      "Ekip eğitimi + 90 gün destek"
+    ],
+    highlight: false
+  },
+  {
+    code: "P3",
+    name: "Özel Mimari",
+    tag: "beyaz eldiven",
+    price: "₺300k+",
+    duration: "3-6 ay",
+    summary: "Standartların yetmediği durumda özel yazılım, ERP köprüsü, çoklu bot.",
+    bullets: [
+      "L2-L3 düzeyinde geliştirme",
+      "Özel backend + frontend (Python / Node)",
+      "Mevcut ERP'ye köprü (Logo, Mikro, SAP, Oracle)",
+      "RAG destekli iç bilgi botu",
+      "Çoklu Telegram arayüzü"
+    ],
+    highlight: false
+  }
+];
+---
+
+<section id="paketler" class="py-20 md:py-28 bg-ink text-paper">
+  <div class="container-wide">
+    <div class="max-w-2xl mb-14">
+      <p class="label mb-4 text-paper/50">Paketler</p>
+      <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
+        İhtiyaca göre büyüyen paketler.
+      </h2>
+      <p class="mt-6 text-paper/70 leading-relaxed">
+        Fiyat aralıklarıdır; nihai ücretlendirme denetim sonrası netleşir. İlk 3 müşteriye lansman koşulları uygulanır.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {
+        packages.map((p) => (
+          <article
+            class={`relative rounded-2xl p-6 md:p-7 h-full flex flex-col border ${
+              p.highlight
+                ? "bg-paper text-ink border-paper"
+                : "bg-ink/40 border-paper/10"
+            }`}
+          >
+            {p.tag && (
+              <span
+                class={`absolute -top-3 right-5 text-[10px] font-mono tracking-wider uppercase px-2 py-1 rounded-full ${
+                  p.highlight
+                    ? "bg-accent text-paper"
+                    : "bg-paper/10 text-paper/70"
+                }`}
+              >
+                {p.tag}
+              </span>
+            )}
+            <div class="flex items-baseline justify-between mb-5">
+              <span class="font-mono text-2xl font-medium">{p.code}</span>
+              <span class={`text-xs font-mono ${p.highlight ? "text-muted" : "text-paper/50"}`}>
+                {p.duration}
+              </span>
+            </div>
+
+            <h3 class="text-lg font-medium tracking-tight mb-2">{p.name}</h3>
+            <p class={`text-sm leading-relaxed mb-5 ${p.highlight ? "text-ink/70" : "text-paper/70"}`}>
+              {p.summary}
+            </p>
+
+            <p class={`text-2xl font-medium tracking-tight mb-6 ${p.highlight ? "text-ink" : "text-paper"}`}>
+              {p.price}
+            </p>
+
+            <ul class={`space-y-2 text-sm flex-1 ${p.highlight ? "text-ink/80" : "text-paper/80"}`}>
+              {p.bullets.map((b) => (
+                <li class="flex gap-2">
+                  <span aria-hidden="true" class={p.highlight ? "text-accent" : "text-accent"}>
+                    →
+                  </span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="#iletisim"
+              class={`mt-7 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-sm font-medium transition-colors ${
+                p.highlight
+                  ? "bg-ink text-paper hover:bg-ink/90"
+                  : "bg-paper/10 text-paper hover:bg-paper/20 border border-paper/10"
+              }`}
+            >
+              {p.code === "P0" ? "Denetim için başvur" : "Bu paketi konuşalım"} →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-xs text-paper/40 max-w-3xl">
+      * P0 denetimi, lansman döneminde belirli koşullarda ücretsizdir; aksi halde 5.000 TL'dir. Aylık retainer (bakım & destek) tüm paketler için ayrıca teklif edilir.
+    </p>
+  </div>
+</section>

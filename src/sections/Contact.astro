@@ -1,0 +1,154 @@
+---
+// Form, şimdilik Formspree placeholder endpoint'i kullanıyor.
+// Sonradan kendi n8n webhook'umuza bağlanabilir (POST -> Telegram bildirim).
+---
+
+<section id="iletisim" class="py-20 md:py-28 bg-ink text-paper relative overflow-hidden">
+  <div class="absolute inset-0 grid-bg opacity-10"></div>
+
+  <div class="container-wide relative">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5">
+        <p class="label mb-4 text-paper/50">İletişim</p>
+        <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
+          1 saat ayırın.<br />
+          <span class="text-paper/50 italic">Geri kalanını biz çözeriz.</span>
+        </h2>
+        <p class="mt-6 text-paper/70 leading-relaxed max-w-md">
+          Aşağıdaki formu doldurun ya da doğrudan e-posta ile yazın. 24 saat içinde 15 dakikalık tanışma görüşmesi için dönüş yaparız.
+        </p>
+
+        <div class="mt-10 space-y-4 text-sm">
+          <a
+            href="mailto:merhaba@postfabrica.co"
+            class="flex items-center gap-3 text-paper/80 hover:text-paper transition-colors"
+          >
+            <span class="size-9 rounded-full bg-paper/10 grid place-items-center text-paper/70">@</span>
+            <span class="font-mono">merhaba@postfabrica.co</span>
+          </a>
+          <a
+            href="https://t.me/postfabrica"
+            class="flex items-center gap-3 text-paper/80 hover:text-paper transition-colors"
+          >
+            <span class="size-9 rounded-full bg-paper/10 grid place-items-center text-paper/70">✈</span>
+            <span class="font-mono">@postfabrica (Telegram)</span>
+          </a>
+          <div class="flex items-center gap-3 text-paper/60">
+            <span class="size-9 rounded-full bg-paper/10 grid place-items-center text-paper/60">⌖</span>
+            <span class="font-mono">İstanbul · Türkiye</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <form
+          action="https://formspree.io/f/PLACEHOLDER"
+          method="POST"
+          class="bg-paper text-ink rounded-2xl p-6 md:p-8 space-y-5"
+          id="lead-form"
+        >
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label for="name" class="label block mb-2">Ad Soyad</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="w-full px-4 py-3 rounded-lg border border-line bg-cream/30 focus:bg-paper focus:border-ink focus:outline-none transition-colors text-sm"
+                placeholder="Adınız Soyadınız"
+              />
+            </div>
+            <div>
+              <label for="company" class="label block mb-2">Şirket</label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                class="w-full px-4 py-3 rounded-lg border border-line bg-cream/30 focus:bg-paper focus:border-ink focus:outline-none transition-colors text-sm"
+                placeholder="Şirket adı"
+              />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label for="email" class="label block mb-2">E-posta</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full px-4 py-3 rounded-lg border border-line bg-cream/30 focus:bg-paper focus:border-ink focus:outline-none transition-colors text-sm"
+                placeholder="ornek@sirket.com"
+              />
+            </div>
+            <div>
+              <label for="phone" class="label block mb-2">Telefon <span class="text-muted">(opsiyonel)</span></label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="w-full px-4 py-3 rounded-lg border border-line bg-cream/30 focus:bg-paper focus:border-ink focus:outline-none transition-colors text-sm"
+                placeholder="+90 ..."
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="sector" class="label block mb-2">Sektör</label>
+            <select
+              id="sector"
+              name="sector"
+              class="w-full px-4 py-3 rounded-lg border border-line bg-cream/30 focus:bg-paper focus:border-ink focus:outline-none transition-colors text-sm"
+            >
+              <option value="">Seçiniz</option>
+              <option>Toptan / e-ticaret dağıtım</option>
+              <option>Küçük üretim / atölye</option>
+              <option>Ajans / kreatif stüdyo</option>
+              <option>Muhasebe / danışmanlık bürosu</option>
+              <option>Lojistik / nakliye</option>
+              <option>Diğer</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="label block mb-2">Mevcut durumunuz <span class="text-muted">(3 cümle yeter)</span></label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="w-full px-4 py-3 rounded-lg border border-line bg-cream/30 focus:bg-paper focus:border-ink focus:outline-none transition-colors text-sm resize-none"
+              placeholder="Örn: WhatsApp'tan gelen siparişleri Excel'e elle yazıyoruz, ERP'ye haftada bir toplu giriyoruz. 6 kişiyiz, hata çok oluyor."
+            ></textarea>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="consent"
+              name="consent"
+              required
+              class="mt-1 size-4 rounded border-line text-ink focus:ring-ink"
+            />
+            <label for="consent" class="text-xs text-muted leading-relaxed">
+              İletişim bilgilerimden Postfabrica'nın benimle iletişime geçmesini kabul ediyorum. Verilerim üçüncü taraflarla paylaşılmaz.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-primary w-full justify-center py-3"
+          >
+            15 dakikalık tanışma görüşmesi için gönder
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <p class="text-[11px] text-muted text-center font-mono">
+            Spam yok. Sadece gerçek bir insan mesajı var.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

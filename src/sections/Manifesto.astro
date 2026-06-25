@@ -1,0 +1,132 @@
+---
+const principles = [
+  {
+    n: "01",
+    text: "Sahadan başla, slayt değil."
+  },
+  {
+    n: "02",
+    text: "En düşük katmandan başla; en yükseğe ancak zorunda kalırsan çık."
+  },
+  {
+    n: "03",
+    text: "Açık kaynağı tercih et. Vendor lock-in tasarım kusurudur."
+  },
+  {
+    n: "04",
+    text: "Telegram bir kısıt değil, kaldıraçtır."
+  },
+  {
+    n: "05",
+    text: "Custom kod son çaredir, ilk değil."
+  },
+  {
+    n: "06",
+    text: "Sahiplenmeyi öğret. Kara kutu teslim etme."
+  },
+  {
+    n: "07",
+    text: "Rapordan çok çalışan şey teslim et."
+  },
+  {
+    n: "08",
+    text: "Dürüst ol: \"Bu iş size uymaz\" diyebilmek, 6 ay sonra \"keşke\" demekten iyidir."
+  },
+  {
+    n: "09",
+    text: "Veri egemenliği. Müşteri verisi müşteride kalır."
+  },
+  {
+    n: "10",
+    text: "Yavaş ölçekle. 5 iyi müşteri, 50 kötü müşteriden iyidir."
+  }
+];
+
+const faqs = [
+  {
+    q: "Self-host'u biz mi yapacağız, siz mi?",
+    a: "İkisini de yapabiliriz. Tipik akış: siz altyapıyı (sunucu veya Hetzner/DO kirası) sağlarsınız, biz kurulumu yaparız. Siz de bakımı öğrenirsiniz. Yılda 5-10 saat ayırabilecek bir teknik eleman yoksa, retainer paketiyle biz yönetiriz."
+  },
+  {
+    q: "Verilerimiz Türkiye'de mi kalıyor?",
+    a: "Evet. Hetzner FSN1 (Almanya) veya kendi sunucunuz (on-prem) varsayılan. OpenAI / Claude gibi API'ler sadece sizin onayınızla ve gerekli minimum veriyle kullanılır. Tüm sistem self-host edilebilir; Ollama + açık LLM'lerle dış API bağımlılığı olmadan da çalışabilir."
+  },
+  {
+    q: "AI yanlış cevap verirse ne olur?",
+    a: "AI'ın 'son sözü' yoktur — kritik işlemlerde her zaman onay adımı var. Telegram botu 'Yapayım mı?' diye sorar, siz onaylarsınız. AI öneri üretir, karar insanda kalır. Bu tasarım ilkesidir."
+  },
+  {
+    q: "Mevcut ERP'mize (Logo, Mikro, SAP) bağlanabilir misiniz?",
+    a: "Evet. P2 ve P3 paketlerinde bu köprüyü kuruyoruz. P1'de entegrasyon ihtiyacı olursa kapsam genişletmesiyle değerlendirilir."
+  },
+  {
+    q: "Sözleşme / fatura modeli nasıl?",
+    a: "Şirketiniz Türkiye'deyse TL üzerinden fatura. Şahıs şirketi / limited fark etmez; bizim tarafta sözleşme ve gizlilik anlaşması (NDA) standart. Kurumsal müşterilerde KDV ve stopaj mevzuatına uygun çalışırız."
+  },
+  {
+    q: "Ürettiğiniz workflow'lar bize mi ait?",
+    a: "Evet. Ödeme tamamlandığında workflow dosyaları, kodlar ve dokümanlar size aittir. İsterseniz kendi ekibiniz de geliştirebilir. 'Vendor lock-in' bizim işimiz değil."
+  },
+  {
+    q: "Çalışanlarımız değişirse / ayrılırsa sistem çöker mi?",
+    a: "Hayır. Tüm workflow'lar dokümante edilir; Telegram botlarını yöneten kişi değişse bile bot çalışmaya devam eder. Eğitim videosu ve runbook bırakıyoruz."
+  }
+];
+---
+
+<section class="py-20 md:py-28 bg-cream/40">
+  <div class="container-wide">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5">
+        <p class="label mb-4">Manifesto</p>
+        <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
+          10 ilke.
+        </h2>
+        <p class="mt-6 text-ink/70 leading-relaxed max-w-md">
+          Postfabrica'nın iş yapma biçimi. Müşteriyle, kendi içimizle, araçlarla ilişkimizin temeli.
+        </p>
+      </div>
+
+      <ol class="lg:col-span-7 space-y-3">
+        {
+          principles.map((p) => (
+            <li class="flex gap-5 p-4 rounded-xl bg-paper border border-line">
+              <span class="font-mono text-xs text-muted shrink-0 pt-1">{p.n}</span>
+              <p class="text-ink/85 leading-relaxed">{p.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="sss" class="py-20 md:py-28">
+  <div class="container-wide max-w-4xl">
+    <p class="label mb-4">Sıkça Sorulanlar</p>
+    <h2 class="display text-4xl md:text-5xl font-medium tracking-tight mb-12">
+      Aklınızdaki sorular.
+    </h2>
+
+    <div class="space-y-px bg-line border border-line rounded-2xl overflow-hidden">
+      {
+        faqs.map((f) => (
+          <details class="group bg-paper">
+            <summary class="cursor-pointer list-none p-5 md:p-6 flex items-center justify-between gap-6 hover:bg-cream/40 transition-colors">
+              <span class="font-medium tracking-tight text-ink">{f.q}</span>
+              <span
+                aria-hidden="true"
+                class="text-muted text-xl transition-transform group-open:rotate-45 shrink-0"
+              >
+                +
+              </span>
+            </summary>
+            <div class="px-5 md:px-6 pb-5 md:pb-6 -mt-2 text-ink/75 leading-relaxed">
+              {f.a}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

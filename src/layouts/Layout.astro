@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Postfabrica — KOBİ'ler için saha-odaklı AI & otomasyon ortağı",
+  description = "Excel, WhatsApp ve dağınık SaaS yığınınızı, 1 saatlik saha denetiminden başlayarak Telegram-odaklı, açık kaynak ve self-hosted bir AI operasyon katmanına dönüştürüyoruz. Türkiye'nin 5-50 kişilik KOBİ'leri için."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafaf9" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="tr_TR" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="bg-paper text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-3 focus:py-2 focus:text-paper focus:rounded"
+    >
+      İçeriğe atla
+    </a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --font-serif: "Fraunces", ui-serif, Georgia, serif;
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .display {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+  }
+  body,
+  .font-sans {
+    font-family: var(--font-sans);
+  }
+  .label,
+  .font-mono,
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+</style>

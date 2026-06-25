@@ -1,0 +1,114 @@
+---
+const sectors = [
+  {
+    code: "A",
+    name: "Toptan / e-ticaret dağıtım",
+    bullets: [
+      "Çok sipariş, çok Excel, çok WhatsApp",
+      "Stok, fatura, kargo üçgeninde kaotik manuel iş",
+      "Müşteri kanalı çoğunlukla WhatsApp / Instagram DM"
+    ]
+  },
+  {
+    code: "B",
+    name: "Küçük üretim / atölye",
+    bullets: [
+      "Stok + tedarik + sipariş takibi kaotik",
+      "Üretimden teslimata kadar gölge süreçler",
+      "Sahadan ofise bilgi akışı kırık"
+    ]
+  },
+  {
+    code: "C",
+    name: "Ajans / kreatif stüdyo (5-15 kişi)",
+    bullets: [
+      "Proje dağınıklığı, müşteri iletişimi çok kanallı",
+      "Brief'ler mailde, dosyalar Drive'da, takvim Notion'da",
+      "Teklif → iş → fatura döngüsü kopuk"
+    ]
+  },
+  {
+    code: "D",
+    name: "Muhasebe / danışmanlık bürosu",
+    bullets: [
+      "Dosya, müvekkil, hatırlatma kaosu",
+      "Beyanname dönemleri manuel yoğunluğu",
+      "Müvekkil iletişiminde WhatsApp ağırlığı"
+    ]
+  },
+  {
+    code: "E",
+    name: "Lojistik / nakliye KOBİ",
+    bullets: [
+      "WhatsApp'tan gelen teklif, manuel plaka, kağıt iş",
+      "Şoför-saha-ofis bilgi kopukluğu",
+      "Sevkiyat onayı telefonda"
+    ]
+  }
+];
+
+const anti = [
+  "Kurumsal (250+ çalışan) — satış döngüsü uzun",
+  "\"Bir uygulama yapalım\" diyenler — süreç danışmanlığı yapıyoruz",
+  "Sadece web sitesi isteyenler",
+  "\"AI ile zengin olalım\" belirsizliği",
+  "Devlet ihaleleri / büyük resmi kurumlar"
+];
+---
+
+<section id="kimin-icin" class="py-20 md:py-28">
+  <div class="container-wide">
+    <div class="max-w-2xl mb-14">
+      <p class="label mb-4">Hedef Müşteri</p>
+      <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
+        5-50 kişilik, büyüyen ama dağılan KOBİ'ler.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {
+        sectors.map((s) => (
+          <article class="card">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="font-mono text-xs px-2 py-1 rounded-full bg-cream border border-line">
+                {s.code}
+              </span>
+              <h3 class="text-lg font-medium tracking-tight">{s.name}</h3>
+            </div>
+            <ul class="space-y-2 text-sm text-ink/70">
+              {s.bullets.map((b) => (
+                <li class="flex gap-2">
+                  <span class="text-accent shrink-0">·</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+
+      <article class="card bg-ink text-paper border-ink">
+        <p class="label text-paper/50 mb-4">Hariç tutulanlar</p>
+        <h3 class="text-lg font-medium tracking-tight mb-4">
+          Sizinle çalışmayız.
+        </h3>
+        <ul class="space-y-2 text-sm text-paper/80">
+          {
+            anti.map((a) => (
+              <li class="flex gap-2">
+                <span class="text-accent shrink-0">✕</span>
+                <span>{a}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+    </div>
+
+    <div class="mt-14 max-w-3xl border-l-2 border-accent pl-6 py-2">
+      <p class="text-ink/80 leading-relaxed">
+        <strong class="text-ink">Karar verici:</strong> genelde işletme sahibi veya ortağı — tek kişi. Teknoloji olgunluğu düşük-orta. Excel'i iyi bilir, SaaS kullanır ama entegre etmez. <span class="text-ink font-medium">"Cloud" derken aslında Dropbox kullanır.</span>
+      </p>
+    </div>
+  </div>
+</section>

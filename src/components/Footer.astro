@@ -1,0 +1,79 @@
+---
+const cols = [
+  {
+    title: "Hizmetler",
+    links: [
+      { href: "#yontem", label: "Yöntem" },
+      { href: "#paketler", label: "Paketler" },
+      { href: "#kimin-icin", label: "Kimler için" },
+      { href: "#sss", label: "SSS" }
+    ]
+  },
+  {
+    title: "Stack",
+    links: [
+      { href: "#", label: "n8n" },
+      { href: "#", label: "Telegram Bot API" },
+      { href: "#", label: "Twenty CRM" },
+      { href: "#", label: "Ollama" }
+    ]
+  },
+  {
+    title: "Postfabrica",
+    links: [
+      { href: "/manifesto", label: "Manifesto" },
+      { href: "https://github.com/shakg/postfabrica", label: "GitHub" },
+      { href: "#iletisim", label: "İletişim" },
+      { href: "mailto:merhaba@postfabrica.co", label: "merhaba@postfabrica.co" }
+    ]
+  }
+];
+---
+
+<footer class="bg-paper border-t border-line">
+  <div class="container-wide py-16">
+    <div class="grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-5">
+        <a href="#top" class="flex items-center gap-2 group">
+          <span class="size-7 rounded-full bg-ink grid place-items-center text-paper text-[10px] font-mono tracking-tighter">
+            P/
+          </span>
+          <span class="font-medium tracking-tight">postfabrica</span>
+          <span class="text-muted text-xs font-mono ml-1">.co</span>
+        </a>
+
+        <p class="mt-5 text-sm text-ink/70 leading-relaxed max-w-sm">
+          Türkiye KOBİ'leri için saha-odaklı, açık kaynak ve self-hosted AI & otomasyon ortağı. Fabrika gibi katılaşmış iş süreçlerinden, akışkan ve akıllı operasyonlara.
+        </p>
+
+        <p class="mt-6 text-xs text-muted font-mono">
+          © 2026 Postfabrica · İstanbul
+        </p>
+      </div>
+
+      <div class="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+        {
+          cols.map((c) => (
+            <div>
+              <p class="label mb-3">{c.title}</p>
+              <ul class="space-y-2 text-sm text-ink/70">
+                {c.links.map((l) => (
+                  <li>
+                    <a href={l.href} class="hover:text-ink transition-colors">
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-line flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-muted font-mono">
+      <p>Postfabrica · v0.1 taslak · Türkiye</p>
+      <p>Andrea Branzi'nin Post-Fabbrica konseptinden esinlenilmiştir.</p>
+    </div>
+  </div>
+</footer>

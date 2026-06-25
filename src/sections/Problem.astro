@@ -1,0 +1,56 @@
+---
+const pains = [
+  {
+    n: "01",
+    title: "Araç yığını kaosu",
+    body: "Excel + WhatsApp + 2-3 SaaS + kağıt defter. Birbirine bağlanmamış, veri siloları içinde boğulan işletme."
+  },
+  {
+    n: "02",
+    title: "SaaS yorgunluğu",
+    body: "Aylık 200-2.000$ abonelik, kurulum eğrisi, Türkçe destek yok, veri yurt dışında. Paranızın karşılığını alamıyorsunuz."
+  },
+  {
+    n: "03",
+    title: "ChatGPT denedik, olmadı",
+    body: "Operasyonunuz hâlâ 5 yıllık manuel kopyala-yapıştır. AI'ı tek tek prompt'la denediniz; süreçlerinize girmedi."
+  },
+  {
+    n: "04",
+    title: "Danışmanlık 50.000$ rapor verir, saha değişmez",
+    body: "PowerPoint teslim edip kayboluyorlar. 6 ay sonra klasör duruyor, hayat aynı."
+  }
+];
+---
+
+<section class="py-20 md:py-28 bg-cream/40">
+  <div class="container-wide">
+    <div class="max-w-2xl mb-14">
+      <p class="label mb-4">Problem</p>
+      <h2 class="display text-4xl md:text-5xl font-medium tracking-tight">
+        Türkiye KOBİ'lerinin gerçek gündemi:
+        <span class="text-muted italic">"ne yapacağımızı bilemiyoruz."</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-px bg-line border border-line rounded-2xl overflow-hidden">
+      {
+        pains.map((pain) => (
+          <article class="bg-paper p-8 md:p-10">
+            <p class="label mb-4 text-accent">{pain.n}</p>
+            <h3 class="text-xl md:text-2xl font-medium tracking-tight mb-3">
+              {pain.title}
+            </h3>
+            <p class="text-ink/70 leading-relaxed">{pain.body}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 max-w-3xl">
+      <p class="text-ink/80 leading-relaxed">
+        <strong class="text-ink">Gerçek problem:</strong> neyi otomatikleştireceğinizi bilmiyorsunuz. Çünkü işlerinizi birisi gelip görmeden göremezsiniz. Postfabrica, saha danışmanlığının en küçük haliyle başlıyor — <span class="font-medium text-ink">1 saat.</span>
+      </p>
+    </div>
+  </div>
+</section>

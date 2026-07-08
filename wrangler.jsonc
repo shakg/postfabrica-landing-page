@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "postfabrica-landing-page",
+  "compatibility_date": "2025-07-08",
+  "assets": {
+    "directory": "./dist"
+  }
+}

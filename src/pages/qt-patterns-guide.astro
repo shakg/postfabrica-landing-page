@@ -1,0 +1,654 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "C++/Qt/QML Patterns & Best Practices — A 200-Repo Research Dive";
+const description = "200+ open-source Qt repositories analyzed across GitHub, GitLab, and Bitbucket. The patterns, anti-patterns, and real-world architecture decisions that emerged.";
+
+// Code blocks as plain strings (Astro parses {} in template as expressions)
+const codeTree = `my-qt-app/
+├── CMakeLists.txt          # Root build file
+├── src/
+│   ├── core/               # Business logic
+│   │   ├── CMakeLists.txt
+│   │   ├── datamanager.cpp
+│   │   └── datamanager.h
+│   ├── ui/                 # UI controllers
+│   └── qml/                # QML files
+│       ├── Main.qml
+│       ├── pages/
+│       └── components/
+├── tests/                  # Test files
+├── resources/              # Icons, fonts, translations
+└── .github/workflows/      # CI/CD`;
+
+const codeCMake = `cmake_minimum_required(VERSION 3.16)
+project(MyApp VERSION 1.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(Qt6 6.2 REQUIRED COMPONENTS
+    Core Gui Widgets Network Sql)
+
+qt_standard_project_setup()
+
+qt_add_executable(myapp src/main.cpp src/mainwindow.cpp)
+target_link_libraries(myapp PRIVATE
+    Qt6::Core Qt6::Gui Qt6::Widgets)`;
+
+const codeQmlModule = `qt_add_qml_module(myapp
+    URI MyApp
+    VERSION 1.0
+    QML_FILES
+        Main.qml
+        pages/HomePage.qml
+        components/StyledButton.qml
+    RESOURCES
+        images/logo.png
+)`;
+
+const codePlatform = `if(WIN32)
+    target_sources(myapp PRIVATE
+        widgets/d3dvideowidget.cpp)
+elseif(APPLE)
+    target_sources(myapp PRIVATE
+        widgets/metalvideowidget.mm)
+else()
+    target_sources(myapp PRIVATE
+        widgets/openglvideowidget.cpp)
+endif()`;
+
+const codePimpl = `// datamanager.h
+class DataManager : public QObject {
+    Q_OBJECT
+public:
+    explicit DataManager(QObject *parent = nullptr);
+    ~DataManager();
+private:
+    class Impl;
+    std::unique_ptr<Impl> d;  // pimpl
+};`;
+
+const codeSignalSlot = `// GOOD — compile-time checked
+connect(m_worker, &Worker::progressChanged,
+        m_progressBar, &QProgressBar::setValue);
+
+// GOOD — lambda with context for lifetime safety
+connect(m_net, &QNetworkAccessManager::finished,
+        this, [this](QNetworkReply *reply) {
+    handleResponse(reply);
+    reply->deleteLater();
+});`;
+
+const codeOwnership = `// GOOD — parent manages lifetime
+auto *button = new QPushButton(tr("Click"), this);
+
+// GOOD — unique_ptr for non-QObject
+auto parser = std::make_unique<ConfigParser>();
+
+// BAD — bare new without parent
+auto *widget = new QWidget();  // MEMORY LEAK`;
+
+const codeModel = `// tasklistmodel.h
+class TaskListModel : public QAbstractListModel {
+    Q_OBJECT
+    QML_ELEMENT
+
+public:
+    enum Roles {
+        TitleRole = Qt::UserRole + 1,
+        CompletedRole,
+        PriorityRole
+    };
+    Q_ENUM(Roles)
+
+    QHash<int, QByteArray> roleNames() const override {
+        return {
+            {TitleRole, "title"},
+            {CompletedRole, "completed"},
+            {PriorityRole, "priority"}
+        };
+    }
+};`;
+
+const codeModelQml = `// QML'de kullanim
+ListView {
+    model: TaskListModel {}
+    delegate: TaskDelegate {
+        title: model.title
+        completed: model.completed
+        priority: model.priority
+    }
+}`;
+
+const codeBadBinding = `Item {
+    Component.onCompleted: {
+        rect.width = parent.width / 2
+        rect.color = "red"
+    }
+}`;
+
+const codeGoodBinding = `Item {
+    Rectangle {
+        width: parent.width / 2
+        color: "red"
+    }
+}`;
+
+const codeCI = `# .github/workflows/build.yml
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: \${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.*'
+          modules: qtwebengine qtmultimedia
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Test
+        run: ctest --test-dir build --output-on-failure`;
+---
+
+<Layout {title} {description}>
+  <Nav />
+  <main id="main" class="container-narrow pt-24 pb-32">
+    <!-- Back link -->
+    <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors mb-8">
+      <span aria-hidden="true">←</span> postfabrica'ya dön
+    </a>
+
+    <!-- Article header -->
+    <header class="mb-16">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="label">Araştırma</span>
+        <span class="text-muted text-xs font-mono">2026-07-14</span>
+        <span class="text-muted text-xs">·</span>
+        <span class="text-muted text-xs font-mono">18 dk okuma</span>
+      </div>
+      <h1 class="display text-4xl sm:text-5xl md:text-6xl font-medium mb-6 leading-[1.05]">
+        C++/Qt/QML Patterns <span class="text-muted">&</span> Best Practices
+      </h1>
+      <p class="text-lg text-muted leading-relaxed max-w-2xl">
+        200+ açık kaynak Qt deposunu GitHub, GitLab ve Bitbucket'tan taradık.
+        CMake kurulumundan QML mimarisine, test stratejilerinden CI/CD'ye kadar
+        gerçek production kodundan çıkan desenler.
+      </p>
+    </header>
+
+    <!-- Stats bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
+      <div class="card text-center">
+        <div class="display text-3xl font-semibold text-accent">329</div>
+        <div class="label mt-1">Toplam repo</div>
+      </div>
+      <div class="card text-center">
+        <div class="display text-3xl font-semibold text-accent">4</div>
+        <div class="label mt-1">Platform</div>
+      </div>
+      <div class="card text-center">
+        <div class="display text-3xl font-semibold text-accent">9</div>
+        <div class="label mt-1">Derin analiz</div>
+      </div>
+      <div class="card text-center">
+        <div class="display text-3xl font-semibold text-accent">17</div>
+        <div class="label mt-1">Patika</div>
+      </div>
+    </div>
+
+    <!-- Sticky TOC -->
+    <nav class="hidden lg:block sticky top-24 mb-12 p-6 card bg-cream/50">
+      <p class="label mb-3">İçindekiler</p>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#proje-yapisi" class="text-muted hover:text-ink transition-colors">1. Proje yapısı</a></li>
+        <li><a href="#cmake" class="text-muted hover:text-ink transition-colors">2. CMake vs QMake</a></li>
+        <li><a href="#cpp-patterns" class="text-muted hover:text-ink transition-colors">3. C++ mimari desenleri</a></li>
+        <li><a href="#qml" class="text-muted hover:text-ink transition-colors">4. QML mimarisi</a></li>
+        <li><a href="#entegrasyon" class="text-muted hover:text-ink transition-colors">5. C++/QML entegrasyonu</a></li>
+        <li><a href="#test" class="text-muted hover:text-ink transition-colors">6. Test & CI/CD</a></li>
+        <li><a href="#performans" class="text-muted hover:text-ink transition-colors">7. QML performansı</a></li>
+        <li><a href="#anti-patterns" class="text-muted hover:text-ink transition-colors">8. Anti-pattern'ler</a></li>
+        <li><a href="#sonuc" class="text-muted hover:text-ink transition-colors">9. Sonuç</a></li>
+      </ul>
+    </nav>
+
+    <!-- ─── Section 1: Project Structure ─── -->
+    <section id="proje-yapisi" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">Proje yapısı</h2>
+      <p class="text-muted mb-6 leading-relaxed">
+        Yüksek yıldızlı Qt depolarında <strong class="text-ink">yakınsayan bir standart</strong> var.
+        moonlight-qt, shotcut ve krita'nın CMakeLists.txt dosyalarını okuduk — üçü de aynı prensipleri takip ediyor.
+      </p>
+
+      <div class="card bg-ink text-paper p-6 my-6 overflow-x-auto font-mono text-sm leading-relaxed">
+        <pre class="text-paper/90 whitespace-pre-wrap"><code set:html={codeTree}></code></pre>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-4 mt-6">
+        <div class="card">
+          <div class="text-accent text-2xl mb-2">📁</div>
+          <p class="text-sm font-medium mb-1">Fonksiyonel dizin</p>
+          <p class="text-xs text-muted">Kaynakları dosya tipine göre değil, <em>ne yaptığına</em> göre groupla.</p>
+        </div>
+        <div class="card">
+          <div class="text-accent text-2xl mb-2">📄</div>
+          <p class="text-sm font-medium mb-1">Co-locate .cpp + .h</p>
+          <p class="text-xs text-muted">Header ve implementation aynı klasörde. include/ klasöru yok.</p>
+        </div>
+        <div class="card">
+          <div class="text-accent text-2xl mb-2">🔧</div>
+          <p class="text-sm font-medium mb-1">Per-dizin CMakeLists</p>
+          <p class="text-xs text-muted">Her modül kendi CMakeLists.txt'sini taşır → modüler build.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 2: CMake ─── -->
+    <section id="cmake" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">CMake kazandı</h2>
+      <p class="text-muted mb-6 leading-relaxed">
+        200+ depo analizinde sonuç net: <strong class="text-ink">CMake Qt dünyasında standart oldu</strong>.
+        QMake sadece bakım modundaki eski projelerde kaldı. Shotcut Qt6.4+,
+        Krita ise hem Qt5 hem Qt6'yı aynı kod tabanında destekliyor.
+      </p>
+
+      <details class="card mb-4 group" open>
+        <summary class="cursor-pointer font-medium text-sm flex items-center justify-between">
+          <span>Qt6 + CMake standart şablonu</span>
+          <span class="text-muted text-xs group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="mt-4 overflow-x-auto">
+          <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeCMake}></code></pre>
+        </div>
+      </details>
+
+      <details class="card mb-4 group">
+        <summary class="cursor-pointer font-medium text-sm flex items-center justify-between">
+          <span>QML modülü ile kaynakları derleme zamanı gömme (Qt6)</span>
+          <span class="text-muted text-xs group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="mt-4 overflow-x-auto">
+          <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeQmlModule}></code></pre>
+        </div>
+      </details>
+
+      <details class="card mb-4 group">
+        <summary class="cursor-pointer font-medium text-sm flex items-center justify-between">
+          <span>Platform'a göre kaynak dosyası ekleme (shotcut'tan)</span>
+          <span class="text-muted text-xs group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="mt-4 overflow-x-auto">
+          <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codePlatform}></code></pre>
+        </div>
+      </details>
+    </section>
+
+    <!-- ─── Section 3: C++ Patterns ─── -->
+    <section id="cpp-patterns" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">C++ mimari desenleri</h2>
+
+      <div class="space-y-8">
+        <!-- Pimpl -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-accent font-mono text-sm">01</span>
+            <h3 class="font-medium">Pimpl (D-pointer) deseni</h3>
+          </div>
+          <p class="text-muted text-sm mb-4 leading-relaxed">
+            Qt'nin kendisinin, KDE Frameworks'ün, Stellarium'un ve Serial-Studio'nun kullandığı desen.
+            Private üyeleri header'dan çıkarır → ABI stabilitesi + daha hızlı derleme.
+          </p>
+          <div class="overflow-x-auto">
+            <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codePimpl}></code></pre>
+          </div>
+        </div>
+
+        <!-- Signal/Slot -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-accent font-mono text-sm">02</span>
+            <h3 class="font-medium">Signal/Slot — modern sözleşme</h3>
+          </div>
+          <p class="text-muted text-sm mb-4 leading-relaxed">
+            Professional Qt kodunda her zaman tip-güvenli pointer-tabanlı bağlantı kullanılır.
+            Eski string-tabanlı <code class="font-mono text-xs bg-cream px-1.5 py-0.5 rounded">SIGNAL()</code> / <code class="font-mono text-xs bg-cream px-1.5 py-0.5 rounded">SLOT()</code> sentaksı runtime hatası verir.
+          </p>
+          <div class="overflow-x-auto">
+            <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeSignalSlot}></code></pre>
+          </div>
+        </div>
+
+        <!-- Ownership -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-accent font-mono text-sm">03</span>
+            <h3 class="font-medium">Sahiplik & parent-child hiyerarşi</h3>
+          </div>
+          <p class="text-muted text-sm mb-4 leading-relaxed">
+            QObject'lerde parent = otomatik lifetime yönetimi.
+            Smart pointer'lar QObject olmayan heap nesneleri için.
+          </p>
+          <div class="overflow-x-auto">
+            <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeOwnership}></code></pre>
+          </div>
+        </div>
+
+        <!-- Layering -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-accent font-mono text-sm">04</span>
+            <h3 class="font-medium">Controller / Service / Model katmanlaması</h3>
+          </div>
+          <p class="text-muted text-sm leading-relaxed">
+            Serial-Studio ve Librum-Reader'da gözlemlenen desen: View (QML) → Controller (QObject) → Service → Model.
+            Her katman bir alt katmana bağlı, üst katman UI detaylarını bilmez.
+          </p>
+          <div class="mt-4 p-4 bg-ink rounded-lg text-paper text-sm font-mono">
+            <div class="flex items-center justify-between border-b border-paper/20 pb-2 mb-2">
+              <span>QML / Widgets UI</span>
+              <span class="text-paper/40">View layer</span>
+            </div>
+            <div class="text-accent text-center py-1">↓</div>
+            <div class="flex items-center justify-between border-b border-paper/20 pb-2 mb-2">
+              <span>ViewController</span>
+              <span class="text-paper/40">Mediator</span>
+            </div>
+            <div class="text-accent text-center py-1">↓</div>
+            <div class="flex items-center justify-between border-b border-paper/20 pb-2 mb-2">
+              <span>Service / Manager</span>
+              <span class="text-paper/40">Business logic</span>
+            </div>
+            <div class="text-accent text-center py-1">↓</div>
+            <div class="flex items-center justify-between">
+              <span>Model / Data Layer</span>
+              <span class="text-paper/40">DB, files</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 4: QML ─── -->
+    <section id="qml" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">QML mimarisi</h2>
+      <p class="text-muted mb-6 leading-relaxed">
+        FluentUI, quickshell ve KDE Plasma'dan çıkarılan desenler.
+        Qt6'da <strong class="text-ink">QML_ELEMENT</strong> ve <strong class="text-ink">qt_add_qml_module</strong> ile manuel kayıt bitti.
+      </p>
+
+      <!-- Property binding -->
+      <div class="card mb-4">
+        <h3 class="font-medium mb-3 text-sm">Deklaratif property binding</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <p class="label text-red-500 mb-2">Kötü — imperative</p>
+            <div class="overflow-x-auto">
+              <pre class="font-mono text-xs text-muted bg-cream p-3 rounded-lg"><code set:html={codeBadBinding}></code></pre>
+            </div>
+          </div>
+          <div>
+            <p class="label text-green-600 mb-2">İyi — declarative</p>
+            <div class="overflow-x-auto">
+              <pre class="font-mono text-xs text-muted bg-cream p-3 rounded-lg"><code set:html={codeGoodBinding}></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 5: C++/QML Integration ─── -->
+    <section id="entegrasyon" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">C++/QML entegrasyonu</h2>
+      <p class="text-muted mb-6 leading-relaxed">
+        FluentUI'nin <code class="font-mono text-xs bg-cream px-1.5 py-0.5 rounded">Q_PROPERTY_AUTO</code> makrosu ve quickshell'ın <code class="font-mono text-xs bg-cream px-1.5 py-0.5 rounded">QML_VALUE_TYPE</code> gadget tipi — iki farklı yaklaşım, aynı hedef: boilerplate'i azaltmak.
+      </p>
+
+      <!-- Model/View -->
+      <div class="card mb-4">
+        <h3 class="font-medium mb-3 text-sm">C++ modeli QML'e açma</h3>
+        <div class="overflow-x-auto mb-4">
+          <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeModel}></code></pre>
+        </div>
+        <div class="overflow-x-auto">
+          <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeModelQml}></code></pre>
+        </div>
+      </div>
+
+      <!-- Not everything needs QML -->
+      <div class="card bg-accent-soft border-accent/20">
+        <div class="flex items-start gap-3">
+          <span class="text-accent text-xl">💡</span>
+          <div>
+            <p class="font-medium text-sm mb-1">Her şey QML olmak zorunda değil</p>
+            <p class="text-sm text-muted leading-relaxed">
+              <strong>nodeeditor</strong> (⭐3.7k) projesi hiç QML kullanmıyor.
+              Karmaşık 2D grafik editörler için <code class="font-mono text-xs bg-white px-1.5 py-0.5 rounded">QGraphicsView</code> + temiz C++ model-view mimarisi daha iyi bir seçim.
+              JSON tabanlı runtime styling ile kod derlemeden stil değiştirilebiliyor.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 6: Testing & CI ─── -->
+    <section id="test" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">Test & CI/CD</h2>
+      <p class="text-muted mb-6 leading-relaxed">
+        Test framework seçimi mimariye bağlı. qTox QtTest kullanıyor (C++ unit test),
+        Serial-Studio pytest (black-box API test), ApkStudio ise hiç test yazmıyor.
+      </p>
+
+      <!-- Comparison table -->
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm border border-line rounded-lg overflow-hidden">
+          <thead class="bg-ink text-paper">
+            <tr>
+              <th class="text-left p-3 font-medium">Proje</th>
+              <th class="text-left p-3 font-medium">Framework</th>
+              <th class="text-left p-3 font-medium">Yaklaşım</th>
+              <th class="text-left p-3 font-medium">CI</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-line">
+            <tr class="bg-white">
+              <td class="p-3 font-medium">qTox</td>
+              <td class="p-3 text-muted">QtTest + CTest</td>
+              <td class="p-3 text-muted">20+ test binary, per-modül</td>
+              <td class="p-3 text-muted">10 Docker image</td>
+            </tr>
+            <tr class="bg-cream/50">
+              <td class="p-3 font-medium">Serial-Studio</td>
+              <td class="p-3 text-muted">pytest (Python)</td>
+              <td class="p-3 text-muted">Black-box API test</td>
+              <td class="p-3 text-muted">PGO + security scan</td>
+            </tr>
+            <tr class="bg-white">
+              <td class="p-3 font-medium">ApkStudio</td>
+              <td class="p-3 text-muted">Yok</td>
+              <td class="p-3 text-muted">—</td>
+              <td class="p-3 text-muted">install-qt-action</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="card mb-4 group">
+        <summary class="cursor-pointer font-medium text-sm flex items-center justify-between">
+          <span>GitHub Actions: Qt kurulumu + build + test</span>
+          <span class="text-muted text-xs group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="mt-4 overflow-x-auto">
+          <pre class="font-mono text-xs text-muted bg-cream p-4 rounded-lg"><code set:html={codeCI}></code></pre>
+        </div>
+      </details>
+    </section>
+
+    <!-- ─── Section 7: Performance ─── -->
+    <section id="performans" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">QML performansı</h2>
+      <p class="text-muted mb-6 leading-relaxed">
+        Qt dokümantasyonu ve gerçek projelerden 7 kritik optimizasyon.
+      </p>
+
+      <div class="space-y-4">
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">1. Binding loop'lardan kaçın</p>
+          <p class="text-xs text-muted">A, B'ye bağlıysa B de A'ya bağlı olmasın. Sonsuz döngü.</p>
+        </div>
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">2. Delegate'leri hafif tut</p>
+          <p class="text-xs text-muted">20 binding yerine 3. Karmaşıklığı C++ model'e taşı.</p>
+        </div>
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">3. ListView > Repeater (büyük listelerde)</p>
+          <p class="text-xs text-muted">ListView delegate'leri recycle eder, Repeater hepsini yaratır.</p>
+        </div>
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">4. Loader ile lazy load</p>
+          <p class="text-xs text-muted">Ağır komponentleri sadece görünür olduğunda yükle.</p>
+        </div>
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">5. Binding içinde nesne yaratma</p>
+          <p class="text-xs text-muted">Her evaluation'da yeni nesne = memory leak potansiyeli.</p>
+        </div>
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">6. Accumulate before assigning</p>
+          <p class="text-xs text-muted">Döngü içinde += yerine local değişken, en son tek atama.</p>
+        </div>
+        <div class="card border-l-4 border-l-accent">
+          <p class="font-medium text-sm mb-1">7. Qt.binding() — sadece dinamik bağlantılar için</p>
+          <p class="text-xs text-muted">Runtime'da binding oluşturmak gerektiğinde, ama dikkatli kullan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 8: Anti-patterns ─── -->
+    <section id="anti-patterns" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">Kaçınılacak desenler</h2>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="card bg-red-50 border-red-200">
+          <p class="font-medium text-sm mb-2 text-red-800">God Object</p>
+          <p class="text-xs text-muted mb-2">Tek sınıf her şeyi yapıyor: load, parse, render, save, network, settings, 200+ method.</p>
+          <p class="text-xs text-accent font-medium">→ DataManager, NetworkService, ChartRenderer'e böl.</p>
+        </div>
+        <div class="card bg-red-50 border-red-200">
+          <p class="font-medium text-sm mb-2 text-red-800">Main thread'i bloklama</p>
+          <p class="text-xs text-muted mb-2"><code class="font-mono text-xs">downloadFile(url)</code> UI'ı dondurur.</p>
+          <p class="text-xs text-accent font-medium">→ QNetworkAccessManager (async) veya QtConcurrent::run.</p>
+        </div>
+        <div class="card bg-red-50 border-red-200">
+          <p class="font-medium text-sm mb-2 text-red-800">String-based signal/slot</p>
+          <p class="text-xs text-muted mb-2"><code class="font-mono text-xs">SIGNAL(valueChanged(int))</code> — runtime hatası, tip kontrolü yok.</p>
+          <p class="text-xs text-accent font-medium">→ Pointer-tabanlı connect kullan.</p>
+        </div>
+        <div class="card bg-red-50 border-red-200">
+          <p class="font-medium text-sm mb-2 text-red-800">QML'de kompleks JavaScript</p>
+          <p class="text-xs text-muted mb-2">Business logic QML'de → test edilemez, performans düşer.</p>
+          <p class="text-xs text-accent font-medium">→ C++ backend'e taşı, QML sadece view.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 9: Conclusion ─── -->
+    <section id="sonuc" class="mb-20 scroll-mt-24">
+      <h2 class="display text-3xl font-medium mb-4">Sonuç</h2>
+      <div class="prose-tight text-muted leading-relaxed space-y-4">
+        <p>
+          200+ depoyu analiz ettiğimizde, Qt ekosisteminin <strong class="text-ink">CMake + Qt6 + QML_ELEMENT</strong>
+          üçlüsü etrafında standardize olduğunu görüyoruz. qmake öldü, manuel <code class="font-mono text-xs bg-cream px-1.5 py-0.5 rounded">qmlRegisterType</code> öldü.
+        </p>
+        <p>
+          En önemli ders: <strong class="text-ink">mimari seçimi proje tipine bağlı</strong>.
+          Widget tabanlı desktop app'lerde Pimpl + signal/slot + parent-child hiyerarşi.
+          QML tabanlı modern UI'lerde QML_ELEMENT + qt_add_qml_module + C++ model.
+          Karmaşık 2D grafik işlerde QGraphicsView — QML her şey değil.
+        </p>
+        <p>
+          Test konusunda qTox'un 20+ binary'lik modüler QtTest yaklaşımı altın standart.
+          CI tarafında <code class="font-mono text-xs bg-cream px-1.5 py-0.5 rounded">jurplel/install-qt-action</code> en basit giriş noktası.
+        </p>
+      </div>
+    </section>
+
+    <!-- GitHub CTA -->
+    <div class="card bg-ink text-paper p-8 text-center mb-20">
+      <h3 class="display text-2xl font-medium mb-2">Tam rehberi GitHub'da oku</h3>
+      <p class="text-paper/60 text-sm mb-6 max-w-lg mx-auto">
+        1.400+ satır tam rehber, 9 vaka analizi, 329 deposluk katalog ve
+        tekrar çalıştırılabilir Python fetcher scripti.
+      </p>
+      <a
+        href="https://github.com/shakg/qt-patterns-guide"
+        class="btn-primary bg-paper text-ink hover:bg-white"
+        target="_blank"
+        rel="noopener"
+      >
+        github.com/shakg/qt-patterns-guide
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- Repo highlights -->
+    <div class="mb-12">
+      <h3 class="label mb-4">İncelenmesi önerilen depolar</h3>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <a href="https://github.com/moonlight-stream/moonlight-qt" class="card hover:border-accent transition-colors group" target="_blank" rel="noopener">
+          <p class="font-medium text-sm group-hover:text-accent transition-colors">moonlight-stream/moonlight-qt</p>
+          <p class="text-xs text-muted mt-1">Cross-platform CMake, platform abstraction — ⭐17.8k</p>
+        </a>
+        <a href="https://github.com/KDE/krita" class="card hover:border-accent transition-colors group" target="_blank" rel="noopener">
+          <p class="font-medium text-sm group-hover:text-accent transition-colors">KDE/krita</p>
+          <p class="text-xs text-muted mt-1">Plugin architecture, 20+ shared libs — ⭐10k</p>
+        </a>
+        <a href="https://github.com/zhuzichu520/FluentUI" class="card hover:border-accent transition-colors group" target="_blank" rel="noopener">
+          <p class="font-medium text-sm group-hover:text-accent transition-colors">zhuzichu520/FluentUI</p>
+          <p class="text-xs text-muted mt-1">Modern QML component library — ⭐4.5k</p>
+        </a>
+        <a href="https://github.com/paceholder/nodeeditor" class="card hover:border-accent transition-colors group" target="_blank" rel="noopener">
+          <p class="font-medium text-sm group-hover:text-accent transition-colors">paceholder/nodeeditor</p>
+          <p class="text-xs text-muted mt-1">QGraphicsView, dataflow UI (no QML) — ⭐3.7k</p>
+        </a>
+        <a href="https://github.com/Serial-Studio/Serial-Studio" class="card hover:border-accent transition-colors group" target="_blank" rel="noopener">
+          <p class="font-medium text-sm group-hover:text-accent transition-colors">Serial-Studio/Serial-Studio</p>
+          <p class="text-xs text-muted mt-1">Qt6 MVC, telemetry dashboard — ⭐7k</p>
+        </a>
+        <a href="https://github.com/qTox/qTox" class="card hover:border-accent transition-colors group" target="_blank" rel="noopener">
+          <p class="font-medium text-sm group-hover:text-accent transition-colors">qTox/qTox</p>
+          <p class="text-xs text-muted mt-1">Gold standard testing, 10 Docker CI images — ⭐5k</p>
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style is:global>
+  details summary {
+    list-style: none;
+  }
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+  pre {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  pre::-webkit-scrollbar {
+    height: 6px;
+  }
+  pre::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 3px;
+  }
+</style>

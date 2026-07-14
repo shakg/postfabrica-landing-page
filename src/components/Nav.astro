@@ -1,8 +1,7 @@
 ---
 const nav = [
-  { href: "#deep-dives", label: "Deep Dives" },
-  { href: "#topics", label: "Topics" },
-  { href: "#about", label: "About" },
+  { href: "/", label: "Deep Dives" },
+  { href: "https://github.com/shakg", label: "GitHub" },
 ];
 ---
 
@@ -25,21 +24,11 @@ const nav = [
     <nav class="hidden md:flex items-center gap-7 text-sm text-muted">
       {
         nav.map((item) => (
-          <a href={item.href} class="hover:text-ink transition-colors">
+          <a href={item.href} class="hover:text-ink transition-colors" target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noopener" : undefined}>
             {item.label}
           </a>
         ))
       }
     </nav>
-
-    <a
-      href="https://github.com/shakg"
-      class="btn-ghost text-sm py-2 px-4"
-      target="_blank"
-      rel="noopener"
-    >
-      GitHub
-      <span aria-hidden="true">→</span>
-    </a>
   </div>
 </header>

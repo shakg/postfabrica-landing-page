@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
 @theme {
+  /* Light mode (default) */
   --color-ink: #0a0a0a;
-  --color-paper: #fafaf9;
+  --color-paper: #ffffff;
   --color-cream: #f5f4f1;
-  --color-line: #e7e5e0;
+  --color-line: #e5e5e5;
   --color-muted: #6b6b66;
-  --color-accent: #d97706;
-  --color-accent-soft: #f5e6d3;
+  --color-accent: #c9a227;
+  --color-accent-soft: #f5f0e0;
+
+  /* Dark mode */
+  --color-dark-bg: #0c0c0c;
+  --color-dark-bg-hover: #161616;
+  --color-dark-stroke: #2a2a2a;
+  --color-dark-text: #ededed;
+  --color-dark-text-secondary: #a0a0a0;
+  --color-dark-text-tertiary: #6b6b6b;
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
@@ -28,9 +37,18 @@
     font-feature-settings: "ss01", "cv11";
   }
 
+  .dark body {
+    color: var(--color-dark-text);
+    background-color: var(--color-dark-bg);
+  }
+
   ::selection {
     background-color: var(--color-ink);
     color: var(--color-paper);
+  }
+  .dark ::selection {
+    background-color: var(--color-dark-text);
+    color: var(--color-dark-bg);
   }
 }
 
@@ -49,10 +67,13 @@
 
   .label {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-muted);
+  }
+  .dark .label {
+    color: var(--color-dark-text-tertiary);
   }
 
   .display {
@@ -64,6 +85,20 @@
   .hairline {
     border-color: var(--color-line);
   }
+  .dark .hairline {
+    border-color: var(--color-dark-stroke);
+  }
+
+  /* Rectangle card — no border-radius, border-based */
+  .card {
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-line);
+    padding: 1.5rem;
+  }
+  .dark .card {
+    background-color: var(--color-dark-bg);
+    border-color: var(--color-dark-stroke);
+  }
 
   .btn-primary {
     display: inline-flex;
@@ -71,15 +106,17 @@
     gap: 0.5rem;
     background-color: var(--color-ink);
     color: var(--color-paper);
-    padding: 0.875rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     font-weight: 500;
-    font-size: 0.9375rem;
-    border-radius: 9999px;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    font-size: 0.875rem;
+    transition: background-color 0.15s ease;
+  }
+  .dark .btn-primary {
+    background-color: var(--color-dark-text);
+    color: var(--color-dark-bg);
   }
   .btn-primary:hover {
-    background-color: #1f1f1f;
-    transform: translateY(-1px);
+    background-color: #333;
   }
 
   .btn-ghost {
@@ -87,44 +124,25 @@
     align-items: center;
     gap: 0.5rem;
     color: var(--color-ink);
-    padding: 0.875rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     font-weight: 500;
-    font-size: 0.9375rem;
-    border-radius: 9999px;
+    font-size: 0.875rem;
     border: 1px solid var(--color-line);
     background: transparent;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.15s ease;
+  }
+  .dark .btn-ghost {
+    color: var(--color-dark-text);
+    border-color: var(--color-dark-stroke);
   }
   .btn-ghost:hover {
     background-color: var(--color-cream);
   }
-
-  .card {
-    background-color: white;
-    border: 1px solid var(--color-line);
-    border-radius: 1rem;
-    padding: 1.5rem;
-  }
-
-  .grid-bg {
-    background-image:
-      linear-gradient(to right, rgba(10,10,10,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(10,10,10,0.04) 1px, transparent 1px);
-    background-size: 56px 56px;
+  .dark .btn-ghost:hover {
+    background-color: var(--color-dark-bg-hover);
   }
 
   .prose-tight p {
     line-height: 1.6;
   }
-}
-
-/* Subtle grain for depth, very low opacity */
-.grain::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.025;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
 }

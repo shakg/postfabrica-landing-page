@@ -24,37 +24,37 @@ const cols = [
 ];
 ---
 
-<footer class="bg-paper border-t border-line">
-  <div class="container-wide py-16">
-    <div class="grid md:grid-cols-12 gap-10">
+<footer class="bg-dark-bg border-t border-dark-stroke">
+  <div class="container-wide py-12">
+    <div class="grid md:grid-cols-12 gap-8">
       <div class="md:col-span-5">
         <a href="/" class="flex items-center gap-2 group">
-          <span class="size-7 rounded-full bg-ink grid place-items-center text-paper text-[10px] font-mono tracking-tighter">
-            P/
-          </span>
-          <span class="font-medium tracking-tight">postfabrica</span>
-          <span class="text-muted text-xs font-mono ml-1">.research</span>
+          <span class="font-medium tracking-tight text-dark-text">postfabrica</span>
+          <span class="text-dark-text-tertiary text-xs font-mono">.research</span>
         </a>
-
-        <p class="mt-5 text-sm text-ink/70 leading-relaxed max-w-sm">
+        <p class="mt-4 text-sm text-dark-text-secondary leading-relaxed max-w-sm">
           A research hub for deep technical analysis. Source code, architecture patterns,
-          and best practices — compiled from real production codebases, not documentation pages.
+          and best practices — compiled from real production codebases.
         </p>
-
-        <p class="mt-6 text-xs text-muted font-mono">
+        <p class="mt-4 text-xs text-dark-text-tertiary font-mono">
           © 2026 Postfabrica
         </p>
       </div>
 
-      <div class="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+      <div class="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-6">
         {
           cols.map((c) => (
             <div>
               <p class="label mb-3">{c.title}</p>
-              <ul class="space-y-2 text-sm text-ink/70">
+              <ul class="space-y-1.5 text-sm text-dark-text-secondary">
                 {c.links.map((l) => (
                   <li>
-                    <a href={l.href} class="hover:text-ink transition-colors" target={l.href.startsWith("http") ? "_blank" : undefined} rel={l.href.startsWith("http") ? "noopener" : undefined}>
+                    <a
+                      href={l.href}
+                      class="hover:text-dark-text transition-colors"
+                      target={l.href.startsWith("http") ? "_blank" : undefined}
+                      rel={l.href.startsWith("http") ? "noopener" : undefined}
+                    >
                       {l.label}
                     </a>
                   </li>
@@ -64,10 +64,6 @@ const cols = [
           ))
         }
       </div>
-    </div>
-
-    <div class="mt-12 pt-6 border-t border-line flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-muted font-mono">
-      <p>Postfabrica · technical research hub</p>
     </div>
   </div>
 </footer>

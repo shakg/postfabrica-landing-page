@@ -18,12 +18,12 @@ const fullOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl.replace(/\
 ---
 
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0c0c0c" />
+    <meta name="theme-color" content="#0e0e0e" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Open Graph -->
@@ -48,6 +48,7 @@ const fullOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl.replace(/\
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -58,10 +59,10 @@ const fullOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl.replace(/\
     <link rel="canonical" href={Astro.url.toString()} />
     <title>{title}</title>
   </head>
-  <body class="bg-dark-bg text-dark-text antialiased">
+  <body>
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-dark-text focus:text-dark-bg focus:px-3 focus:py-2"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-text focus:px-3 focus:py-2 focus:text-bg"
     >
       Skip to content
     </a>
@@ -79,14 +80,6 @@ const fullOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl.replace(/\
     font-family: var(--font-serif);
     font-optical-sizing: auto;
   }
-  body,
-  .font-sans {
-    font-family: var(--font-sans);
-  }
-  .label,
-  .font-mono,
-  code,
-  pre {
-    font-family: var(--font-mono);
-  }
+  body { font-family: var(--font-sans); }
+  .label, .font-mono, code, pre { font-family: var(--font-mono); }
 </style>

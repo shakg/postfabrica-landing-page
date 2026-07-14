@@ -3,7 +3,7 @@ const cols = [
   {
     title: "Research",
     links: [
-      { href: "/#deep-dives", label: "Deep Dives" },
+      { href: "/", label: "Deep Dives" },
       { href: "/qt-patterns-guide", label: "Qt/QML Guide" },
     ]
   },
@@ -24,45 +24,39 @@ const cols = [
 ];
 ---
 
-<footer class="bg-dark-bg border-t border-dark-stroke">
-  <div class="container-wide py-12">
-    <div class="grid md:grid-cols-12 gap-8">
+<footer class="bg-bg border-t border-stroke">
+  <div class="container-wide py-10">
+    <div class="grid md:grid-cols-12 gap-6">
       <div class="md:col-span-5">
-        <a href="/" class="flex items-center gap-2 group">
-          <span class="font-medium tracking-tight text-dark-text">postfabrica</span>
-          <span class="text-dark-text-tertiary text-xs font-mono">.research</span>
-        </a>
-        <p class="mt-4 text-sm text-dark-text-secondary leading-relaxed max-w-sm">
-          A research hub for deep technical analysis. Source code, architecture patterns,
-          and best practices — compiled from real production codebases.
+        <a href="/" class="font-medium tracking-tight text-text">postfabrica</a>
+        <span class="text-text-3 text-xs font-mono ml-1.5">.research</span>
+        <p class="mt-3 text-sm text-text-2 leading-relaxed max-w-sm">
+          Deep technical analysis. Source code, architecture patterns, and best practices —
+          compiled from real production codebases.
         </p>
-        <p class="mt-4 text-xs text-dark-text-tertiary font-mono">
-          © 2026 Postfabrica
-        </p>
+        <p class="mt-3 text-xs text-text-3 font-mono">© 2026 Postfabrica</p>
       </div>
 
-      <div class="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-6">
-        {
-          cols.map((c) => (
-            <div>
-              <p class="label mb-3">{c.title}</p>
-              <ul class="space-y-1.5 text-sm text-dark-text-secondary">
-                {c.links.map((l) => (
-                  <li>
-                    <a
-                      href={l.href}
-                      class="hover:text-dark-text transition-colors"
-                      target={l.href.startsWith("http") ? "_blank" : undefined}
-                      rel={l.href.startsWith("http") ? "noopener" : undefined}
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
+      <div class="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-5">
+        {cols.map((c) => (
+          <div>
+            <p class="label mb-2.5">{c.title}</p>
+            <ul class="space-y-1.5 text-sm text-text-2">
+              {c.links.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    class="hover:text-text transition-colors"
+                    target={l.href.startsWith("http") ? "_blank" : undefined}
+                    rel={l.href.startsWith("http") ? "noopener" : undefined}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   </div>

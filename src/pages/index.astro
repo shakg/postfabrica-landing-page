@@ -6,7 +6,6 @@ import { deepDives, allTopics, allTags } from "../data/deepdives";
 const title = "Postfabrica — Deep technical research & analysis";
 const description = "A research hub for deep technical analysis. Source code, architecture patterns, and best practices — compiled from real production codebases.";
 
-// Sort: featured first, then by date desc
 const sortedDives = [...deepDives].sort((a, b) => {
   if (a.featured && !b.featured) return -1;
   if (!a.featured && b.featured) return 1;
@@ -17,17 +16,17 @@ const sortedDives = [...deepDives].sort((a, b) => {
 <Layout {title} {description}>
   <main id="main" class="min-h-screen">
     <!-- ─── Filter bar ─── -->
-    <div class="sticky top-0 z-40 backdrop-blur-md bg-dark-bg/80 border-b border-dark-stroke">
-      <div class="container-wide py-4 space-y-3">
-        <div id="topic-filters" class="flex flex-wrap gap-2 items-center">
-          <span class="label mr-1">Topics</span>
+    <div class="sticky top-0 z-40 backdrop-blur-md bg-bg/90 border-b border-stroke">
+      <div class="container-wide py-3.5 space-y-2.5">
+        <div id="topic-filters" class="flex flex-wrap gap-1.5 items-center">
+          <span class="label mr-1.5">Topics</span>
           <button data-topic="all" class="filter-btn active">All</button>
           {allTopics.map((t) => (
             <button data-topic={t} class="filter-btn">{t}</button>
           ))}
         </div>
-        <div id="tag-filters" class="flex flex-wrap gap-2 items-center">
-          <span class="label mr-1">Tags</span>
+        <div id="tag-filters" class="flex flex-wrap gap-1.5 items-center">
+          <span class="label mr-1.5">Tags</span>
           {allTags.map((t) => (
             <button data-tag={t} class="filter-tag">{t}</button>
           ))}
@@ -36,32 +35,32 @@ const sortedDives = [...deepDives].sort((a, b) => {
     </div>
 
     <!-- ─── Deep dive list ─── -->
-    <div class="container-wide py-8">
+    <div class="container-wide py-6">
       <div id="dive-grid" class="flex flex-col">
         {sortedDives.map((dive) => (
           <article
-            class="dive-card group border-b border-dark-stroke last:border-b-0 transition-colors hover:bg-dark-bg-hover"
+            class="dive-card group border-b border-stroke last:border-b-0 transition-colors hover:bg-bg-hover"
             data-topics={dive.topics.join(",")}
             data-tags={dive.tags.join(",")}
             data-slug={dive.slug}
           >
             <a
               href={dive.externalUrl || `/${dive.slug}`}
-              class="block py-8 md:py-12"
+              class="block py-7 md:py-9"
               target={dive.externalUrl ? "_blank" : undefined}
               rel={dive.externalUrl ? "noopener" : undefined}
             >
-              <div class="grid md:grid-cols-12 gap-4 md:gap-8 items-start">
+              <div class="grid md:grid-cols-12 gap-3 md:gap-6 items-start">
                 <!-- Left: meta -->
                 <div class="md:col-span-3 flex flex-col gap-2">
-                  <div class="flex flex-wrap gap-1.5">
+                  <div class="flex flex-wrap gap-1">
                     {dive.topics.map((t) => (
-                      <span class="text-[10px] font-mono uppercase tracking-wider text-dark-text-tertiary border border-dark-stroke px-2 py-0.5">
+                      <span class="text-[10px] font-mono uppercase tracking-wider text-text-3 border border-stroke px-1.5 py-0.5">
                         {t}
                       </span>
                     ))}
                   </div>
-                  <div class="flex items-center gap-2 text-xs text-dark-text-tertiary font-mono">
+                  <div class="flex items-center gap-2 text-xs text-text-3 font-mono">
                     <span>{dive.date}</span>
                     <span>·</span>
                     <span>{dive.readTime}</span>
@@ -70,18 +69,16 @@ const sortedDives = [...deepDives].sort((a, b) => {
 
                 <!-- Middle: title + excerpt -->
                 <div class="md:col-span-7">
-                  <h2 class="display text-xl md:text-2xl font-medium leading-tight text-dark-text group-hover:text-accent transition-colors mb-3">
+                  <h2 class="display text-xl md:text-2xl font-medium leading-tight text-text group-hover:text-accent transition-colors mb-2.5">
                     {dive.title}
                   </h2>
-                  <p class="text-sm text-dark-text-secondary leading-relaxed max-w-2xl">
+                  <p class="text-sm text-text-2 leading-relaxed max-w-2xl">
                     {dive.excerpt}
                   </p>
                   {dive.tags.length > 0 && (
-                    <div class="flex flex-wrap gap-1.5 mt-4">
+                    <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3">
                       {dive.tags.map((t) => (
-                        <span class="text-[10px] font-mono text-dark-text-tertiary">
-                          #{t}
-                        </span>
+                        <span class="text-[10px] font-mono text-text-3">#{t}</span>
                       ))}
                     </div>
                   )}
@@ -89,7 +86,7 @@ const sortedDives = [...deepDives].sort((a, b) => {
 
                 <!-- Right: arrow -->
                 <div class="md:col-span-2 flex md:justify-end">
-                  <span class="text-dark-text-tertiary group-hover:text-accent group-hover:translate-x-1 transition-all text-lg" aria-hidden="true">
+                  <span class="text-text-3 group-hover:text-accent group-hover:translate-x-1 transition-all text-lg" aria-hidden="true">
                     →
                   </span>
                 </div>
@@ -101,8 +98,8 @@ const sortedDives = [...deepDives].sort((a, b) => {
 
       <!-- Empty state -->
       <div id="empty-state" class="hidden text-center py-20">
-        <p class="text-dark-text-secondary text-sm">No deep dives match your filters.</p>
-        <button id="reset-filters" class="btn-ghost mt-4 text-sm">Reset filters</button>
+        <p class="text-text-2 text-sm">No deep dives match your filters.</p>
+        <button id="reset-filters" class="btn-ghost mt-4">Reset filters</button>
       </div>
     </div>
   </main>
@@ -110,93 +107,68 @@ const sortedDives = [...deepDives].sort((a, b) => {
 </Layout>
 
 <style is:global>
-  /* Filter buttons — sharp rectangles */
   .filter-btn {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    padding: 0.3rem 0.7rem;
-    border: 1px solid var(--color-dark-stroke);
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.625rem;
+    border: 1px solid var(--color-stroke);
     background: transparent;
-    color: var(--color-dark-text-tertiary);
+    color: var(--color-text-3);
     cursor: pointer;
     transition: all 0.15s ease;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
   .filter-btn:hover {
-    border-color: var(--color-dark-text);
-    color: var(--color-dark-text);
+    border-color: var(--color-text-2);
+    color: var(--color-text-2);
   }
   .filter-btn.active {
-    background: var(--color-dark-text);
-    color: var(--color-dark-bg);
-    border-color: var(--color-dark-text);
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
   }
 
   .filter-tag {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     padding: 0.2rem 0.5rem;
-    border: 1px solid var(--color-dark-stroke);
+    border: 1px solid var(--color-stroke);
     background: transparent;
-    color: var(--color-dark-text-tertiary);
+    color: var(--color-text-3);
     cursor: pointer;
     transition: all 0.15s ease;
   }
   .filter-tag:hover {
     border-color: var(--color-accent);
-    color: var(--color-dark-text);
+    color: var(--color-text-2);
   }
   .filter-tag.active {
-    background: var(--color-accent-soft);
     border-color: var(--color-accent);
     color: var(--color-accent);
-  }
-
-  /* Code blocks — dark, no rounded corners */
-  pre {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-dark-stroke) transparent;
-  }
-  pre::-webkit-scrollbar {
-    height: 4px;
-  }
-  pre::-webkit-scrollbar-thumb {
-    background: var(--color-dark-stroke);
   }
 </style>
 
 <script>
-  // ─── Client-side filtering ───
-  const topicButtons = document.querySelectorAll<HTMLButtonElement>("[data-topic]");
-  const tagButtons = document.querySelectorAll<HTMLButtonElement>("[data-tag]");
-  const cards = document.querySelectorAll<HTMLElement>(".dive-card");
+  const topicButtons = document.querySelectorAll("[data-topic]");
+  const tagButtons = document.querySelectorAll("[data-tag]");
+  const cards = document.querySelectorAll(".dive-card");
   const emptyState = document.getElementById("empty-state");
 
   let activeTopic = "all";
-  let activeTags = new Set<string>();
+  let activeTags = new Set();
 
   function update() {
     let visible = 0;
-
     cards.forEach((card) => {
-      const cardTopics = (card.dataset.topics || "").split(",");
-      const cardTags = (card.dataset.tags || "").split(",");
-
-      const topicMatch = activeTopic === "all" || cardTopics.includes(activeTopic);
-      const tagMatch = activeTags.size === 0 || [...activeTags].some((t) => cardTags.includes(t));
-
-      if (topicMatch && tagMatch) {
-        card.classList.remove("hidden");
-        visible++;
-      } else {
-        card.classList.add("hidden");
-      }
+      const ct = (card.dataset.topics || "").split(",");
+      const cg = (card.dataset.tags || "").split(",");
+      const tm = activeTopic === "all" || ct.includes(activeTopic);
+      const gm = activeTags.size === 0 || [...activeTags].some((t) => cg.includes(t));
+      if (tm && gm) { card.classList.remove("hidden"); visible++; }
+      else { card.classList.add("hidden"); }
     });
-
-    if (emptyState) {
-      emptyState.classList.toggle("hidden", visible > 0);
-    }
+    if (emptyState) emptyState.classList.toggle("hidden", visible > 0);
   }
 
   topicButtons.forEach((btn) => {
@@ -211,13 +183,8 @@ const sortedDives = [...deepDives].sort((a, b) => {
   tagButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const tag = btn.dataset.tag || "";
-      if (activeTags.has(tag)) {
-        activeTags.delete(tag);
-        btn.classList.remove("active");
-      } else {
-        activeTags.add(tag);
-        btn.classList.add("active");
-      }
+      if (activeTags.has(tag)) { activeTags.delete(tag); btn.classList.remove("active"); }
+      else { activeTags.add(tag); btn.classList.add("active"); }
       update();
     });
   });

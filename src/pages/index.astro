@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { deepDives, allTopics, allTags } from "../data/deepdives";
 
@@ -13,27 +12,12 @@ const sortedDives = [...deepDives].sort((a, b) => {
   if (!a.featured && b.featured) return 1;
   return new Date(b.date).getTime() - new Date(a.date).getTime();
 });
-
-const featured = sortedDives.find(d => d.featured);
-const rest = sortedDives.filter(d => !d.featured && d.slug !== "coming-soon");
-const comingSoon = sortedDives.find(d => d.slug === "coming-soon");
 ---
 
 <Layout {title} {description}>
-  <Nav />
   <main id="main">
     <!-- ─── Deep Dives Grid ─── -->
-    <section id="deep-dives" class="container-wide pt-24 pb-16">
-      <div class="flex items-end justify-between mb-8">
-        <div>
-          <p class="label mb-2">Research library</p>
-          <h1 class="display text-3xl md:text-4xl font-medium">Deep dives</h1>
-        </div>
-        <p class="text-sm text-muted font-mono" id="dive-count" data-total={deepDives.length}>
-          {deepDives.length} {deepDives.length === 1 ? "entry" : "entries"}
-        </p>
-      </div>
-
+    <section id="deep-dives" class="container-wide pt-16 pb-16">
       <!-- Filter bar -->
       <div id="filter-bar" class="mb-10 space-y-4">
         <div id="topic-filters" class="flex flex-wrap gap-2">
@@ -157,8 +141,6 @@ const comingSoon = sortedDives.find(d => d.slug === "coming-soon");
   const tagButtons = document.querySelectorAll<HTMLButtonElement>("[data-tag]");
   const cards = document.querySelectorAll<HTMLElement>(".dive-card");
   const emptyState = document.getElementById("empty-state");
-  const countEl = document.getElementById("dive-count");
-  const total = countEl?.dataset.total ?? "0";
 
   let activeTopic = "all";
   let activeTags = new Set<string>();
@@ -184,10 +166,6 @@ const comingSoon = sortedDives.find(d => d.slug === "coming-soon");
         card.classList.add("hidden");
       }
     });
-
-    if (countEl) {
-      countEl.textContent = `${visible} ${visible === 1 ? "entry" : "entries"}`;
-    }
 
     if (emptyState) {
       emptyState.classList.toggle("hidden", visible > 0);

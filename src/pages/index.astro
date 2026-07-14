@@ -2,25 +2,453 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
-import Hero from "../sections/Hero.astro";
-import Problem from "../sections/Problem.astro";
-import Method from "../sections/Method.astro";
-import Packages from "../sections/Packages.astro";
-import ICP from "../sections/ICP.astro";
-import Manifesto from "../sections/Manifesto.astro";
-import Contact from "../sections/Contact.astro";
+import { deepDives, allTopics, allTags } from "../data/deepdives";
+
+const title = "Postfabrica — Deep technical research & analysis";
+const description = "A research hub for deep technical analysis. Source code, architecture patterns, and best practices — compiled from real production codebases.";
+
+// Sort: featured first, then by date desc
+const sortedDives = [...deepDives].sort((a, b) => {
+  if (a.featured && !b.featured) return -1;
+  if (!a.featured && b.featured) return 1;
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
+
+const featured = sortedDives.find(d => d.featured);
+const rest = sortedDives.filter(d => !d.featured && d.slug !== "coming-soon");
+const comingSoon = sortedDives.find(d => d.slug === "coming-soon");
 ---
 
-<Layout>
+<Layout {title} {description}>
   <Nav />
   <main id="main">
-    <Hero />
-    <Problem />
-    <Method />
-    <Packages />
-    <ICP />
-    <Manifesto />
-    <Contact />
+    <!-- ─── Hero ─── -->
+    <section id="top" class="relative overflow-hidden">
+      <div class="absolute inset-0 grid-bg opacity-60"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-paper via-paper/90 to-paper"></div>
+
+      <div class="container-wide relative pt-20 pb-16 md:pt-32 md:pb-24">
+        <p class="label mb-6 flex items-center gap-2">
+          <span class="inline-block size-1.5 rounded-full bg-accent"></span>
+          Technical Research Hub
+        </p>
+
+        <h1 class="display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[1.02]">
+          Deep dives into<br />
+          <span class="text-muted italic">software ecosystems.</span>
+        </h1>
+
+        <p class="mt-8 max-w-2xl text-lg md:text-xl text-ink/80 leading-relaxed prose-tight">
+          We analyze 200+ open-source repositories across multiple platforms,
+          read the actual production code, and distill the patterns, anti-patterns,
+          and architecture decisions that emerge. No documentation summaries —
+          just real codebase findings.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a href="#deep-dives" class="btn-primary">
+            Read deep dives
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="https://github.com/shakg/qt-patterns-guide" class="btn-ghost" target="_blank" rel="noopener">
+            Latest: Qt/QML Patterns
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div>
+            <div class="display text-3xl font-semibold text-accent">1</div>
+            <div class="label mt-1">Deep dive</div>
+          </div>
+          <div>
+            <div class="display text-3xl font-semibold text-accent">329</div>
+            <div class="label mt-1">Repos analyzed</div>
+          </div>
+          <div>
+            <div class="display text-3xl font-semibold text-accent">4</div>
+            <div class="label mt-1">Platforms</div>
+          </div>
+          <div>
+            <div class="display text-3xl font-semibold text-accent">9</div>
+            <div class="label mt-1">Case studies</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Featured Deep Dive ─── -->
+    {
+      featured && (
+        <section class="container-wide py-16 border-t border-line">
+          <p class="label mb-8">Featured deep dive</p>
+          <a href={`/${featured.slug}`} class="block group">
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+              <div class="lg:col-span-8">
+                <div class="flex items-center gap-3 mb-4">
+                  {featured.topics.map(t => (
+                    <span class="text-xs font-mono text-accent border border-accent/30 rounded-full px-2.5 py-0.5">
+                      {t}
+                    </span>
+                  ))}
+                  <span class="text-xs text-muted font-mono">{featured.date}</span>
+                  <span class="text-xs text-muted">·</span>
+                  <span class="text-xs text-muted font-mono">{featured.readTime}</span>
+                </div>
+                <h2 class="display text-3xl md:text-4xl font-medium leading-tight group-hover:text-accent transition-colors mb-4">
+                  {featured.title}
+                </h2>
+                <p class="text-lg text-muted leading-relaxed max-w-2xl">
+                  {featured.excerpt}
+                </p>
+              </div>
+              <div class="lg:col-span-4">
+                <div class="card bg-ink text-paper p-6">
+                  <p class="label text-paper/40 mb-3">What's inside</p>
+                  <ul class="space-y-2 text-sm text-paper/80">
+                    <li class="flex gap-2"><span class="text-accent">→</span> Project structure & layout patterns</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> CMake vs QMake — the migration</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> C++ architecture (Pimpl, signals, ownership)</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> QML architecture & component patterns</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> Testing & CI/CD strategies</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> QML performance optimization</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> Threading, deployment, Qt6 idioms</li>
+                    <li class="flex gap-2"><span class="text-accent">→</span> Anti-patterns to avoid</li>
+                  </ul>
+                  <div class="mt-6 pt-6 border-t border-paper/10">
+                    <p class="text-xs text-paper/40 font-mono">
+                      329 repos · 9 case studies · 1,400+ lines
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </section>
+      )
+    }
+
+    <!-- ─── Deep Dives Grid ─── -->
+    <section id="deep-dives" class="container-wide py-16 border-t border-line">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <p class="label mb-2">All deep dives</p>
+          <h2 class="display text-2xl font-medium">Research library</h2>
+        </div>
+        <p class="text-sm text-muted font-mono" id="dive-count" data-total={deepDives.length}>
+          {deepDives.length} {deepDives.length === 1 ? "entry" : "entries"}
+        </p>
+      </div>
+
+      <!-- Filter bar -->
+      <div id="filter-bar" class="mb-10 space-y-4">
+        <div id="topic-filters" class="flex flex-wrap gap-2">
+          <span class="label mr-2 self-center">Topics:</span>
+          <button data-topic="all" class="filter-btn active">All</button>
+          {
+            allTopics.map((t) => (
+              <button data-topic={t} class="filter-btn">{t}</button>
+            ))
+          }
+        </div>
+        <div id="tag-filters" class="flex flex-wrap gap-2">
+          <span class="label mr-2 self-center">Tags:</span>
+          {
+            allTags.map((t) => (
+              <button data-tag={t} class="filter-tag">{t}</button>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Deep dive cards -->
+      <div id="dive-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          sortedDives.map((dive) => (
+            <article
+              class="dive-card card hover:border-accent transition-all duration-200 group cursor-pointer flex flex-col"
+              data-topics={dive.topics.join(",")}
+              data-tags={dive.tags.join(",")}
+              data-slug={dive.slug}
+            >
+              <a href={dive.externalUrl || `/${dive.slug}`} class="block p-6 flex-1 flex flex-col" target={dive.externalUrl ? "_blank" : undefined} rel={dive.externalUrl ? "noopener" : undefined}>
+                <div class="flex items-center gap-2 mb-4">
+                  {dive.topics.map(t => (
+                    <span class="text-[10px] font-mono text-accent border border-accent/30 rounded-full px-2 py-0.5">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <h3 class="font-medium text-base leading-snug group-hover:text-accent transition-colors mb-3">
+                  {dive.title}
+                </h3>
+                <p class="text-sm text-muted leading-relaxed flex-1 mb-4">
+                  {dive.excerpt}
+                </p>
+                <div class="flex items-center justify-between pt-4 border-t border-line mt-auto">
+                  <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                    <span>{dive.date}</span>
+                    <span>·</span>
+                    <span>{dive.readTime}</span>
+                  </div>
+                  <span class="text-accent text-sm group-hover:translate-x-1 transition-transform" aria-hidden="true">
+                    →
+                  </span>
+                </div>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- Empty state -->
+      <div id="empty-state" class="hidden text-center py-20">
+        <p class="text-muted text-sm">No deep dives match your filters.</p>
+        <button id="reset-filters" class="btn-ghost mt-4 text-sm py-2 px-4">Reset filters</button>
+      </div>
+    </section>
+
+    <!-- ─── Topics Section ─── -->
+    <section id="topics" class="container-wide py-16 border-t border-line">
+      <p class="label mb-2">Browse by</p>
+      <h2 class="display text-2xl font-medium mb-8">Topics & tags</h2>
+      <div class="grid sm:grid-cols-2 gap-12">
+        <div>
+          <h3 class="font-medium text-sm mb-4">Topics</h3>
+          <div class="flex flex-wrap gap-3">
+            {allTopics.map(t => (
+              <a href={`#deep-dives`} data-jump-topic={t} class="jump-btn">
+                {t}
+              </a>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 class="font-medium text-sm mb-4">Tags</h3>
+          <div class="flex flex-wrap gap-3">
+            {allTags.map(t => (
+              <a href={`#deep-dives`} data-jump-tag={t} class="jump-tag">
+                {t}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── About ─── -->
+    <section id="about" class="container-wide py-16 border-t border-line">
+      <div class="max-w-2xl">
+        <p class="label mb-2">About</p>
+        <h2 class="display text-2xl font-medium mb-6">What this is</h2>
+        <p class="text-muted leading-relaxed mb-4">
+          Postfabrica is a technical research hub. Instead of writing about what documentation says,
+          we clone repositories, read CMakeLists.txt files, trace QML component hierarchies, inspect
+          CI/CD workflows, and distill the patterns that production code actually uses.
+        </p>
+        <p class="text-muted leading-relaxed mb-4">
+          Each deep dive is backed by real data — API calls to GitHub, GitLab, KDE's GitLab, and Bitbucket.
+          The Python fetcher script that collected 329 repositories is open source and reproducible.
+        </p>
+        <p class="text-muted leading-relaxed">
+          The name comes from Andrea Branzi's Post-Fabbrica concept — the idea that after the factory,
+          production becomes distributed, individual, and craft-driven. This research follows that spirit:
+          not summaries of summaries, but first-hand reading of actual code.
+        </p>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>
+
+<style is:global>
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-line);
+    background: transparent;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .filter-btn:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+  .filter-btn.active {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-color: var(--color-ink);
+  }
+
+  .filter-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-line);
+    background: transparent;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .filter-tag:hover {
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+  .filter-tag.active {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .jump-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-line);
+    background: white;
+    color: var(--color-ink);
+    transition: all 0.15s ease;
+  }
+  .jump-btn:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+
+  .jump-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-line);
+    background: white;
+    color: var(--color-muted);
+    transition: all 0.15s ease;
+  }
+  .jump-tag:hover {
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  // ─── Client-side filtering ───
+  const topicButtons = document.querySelectorAll<HTMLButtonElement>("[data-topic]");
+  const tagButtons = document.querySelectorAll<HTMLButtonElement>("[data-tag]");
+  const cards = document.querySelectorAll<HTMLElement>(".dive-card");
+  const emptyState = document.getElementById("empty-state");
+  const countEl = document.getElementById("dive-count");
+  const total = countEl?.dataset.total ?? "0";
+
+  let activeTopic = "all";
+  let activeTags = new Set<string>();
+
+  function update() {
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const cardTopics = (card.dataset.topics || "").split(",");
+      const cardTags = (card.dataset.tags || "").split(",");
+
+      const topicMatch =
+        activeTopic === "all" || cardTopics.includes(activeTopic);
+
+      const tagMatch =
+        activeTags.size === 0 ||
+        [...activeTags].some((t) => cardTags.includes(t));
+
+      if (topicMatch && tagMatch) {
+        card.classList.remove("hidden");
+        visible++;
+      } else {
+        card.classList.add("hidden");
+      }
+    });
+
+    if (countEl) {
+      countEl.textContent = `${visible} ${visible === 1 ? "entry" : "entries"}`;
+    }
+
+    if (emptyState) {
+      emptyState.classList.toggle("hidden", visible > 0);
+    }
+  }
+
+  // Topic filter — single select
+  topicButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      topicButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeTopic = btn.dataset.topic || "all";
+      update();
+    });
+  });
+
+  // Tag filter — multi select (toggle)
+  tagButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tag = btn.dataset.tag || "";
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove("active");
+      } else {
+        activeTags.add(tag);
+        btn.classList.add("active");
+      }
+      update();
+    });
+  });
+
+  // Jump buttons from Topics section
+  document.querySelectorAll<HTMLElement>("[data-jump-topic]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      const topic = el.dataset.jumpTopic;
+      if (topic) {
+        topicButtons.forEach((b) => b.classList.remove("active"));
+        const target = document.querySelector(`[data-topic="${topic}"]`) as HTMLButtonElement;
+        if (target) {
+          target.classList.add("active");
+          activeTopic = topic;
+          update();
+        }
+      }
+      document.getElementById("deep-dives")?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-jump-tag]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      const tag = el.dataset.jumpTag;
+      if (tag) {
+        const btn = document.querySelector(`[data-tag="${tag}"]`) as HTMLButtonElement;
+        if (btn && !activeTags.has(tag)) {
+          activeTags.add(tag);
+          btn.classList.add("active");
+          update();
+        }
+      }
+      document.getElementById("deep-dives")?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // Reset button
+  document.getElementById("reset-filters")?.addEventListener("click", () => {
+    activeTopic = "all";
+    activeTags.clear();
+    topicButtons.forEach((b) => b.classList.toggle("active", b.dataset.topic === "all"));
+    tagButtons.forEach((b) => b.classList.remove("active"));
+    update();
+  });
+</script>

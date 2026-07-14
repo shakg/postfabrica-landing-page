@@ -1,30 +1,25 @@
 ---
 const cols = [
   {
-    title: "Hizmetler",
+    title: "Research",
     links: [
-      { href: "#yontem", label: "Yöntem" },
-      { href: "#paketler", label: "Paketler" },
-      { href: "#kimin-icin", label: "Kimler için" },
-      { href: "#sss", label: "SSS" }
+      { href: "/#deep-dives", label: "Deep Dives" },
+      { href: "/qt-patterns-guide", label: "Qt/QML Guide" },
+      { href: "/#topics", label: "Topics" },
     ]
   },
   {
-    title: "Stack",
+    title: "Source",
     links: [
-      { href: "#", label: "n8n" },
-      { href: "#", label: "Telegram Bot API" },
-      { href: "#", label: "Twenty CRM" },
-      { href: "#", label: "Ollama" }
+      { href: "https://github.com/shakg/qt-patterns-guide", label: "Qt Patterns Repo" },
+      { href: "https://github.com/shakg/postfabrica-landing-page", label: "This Site" },
     ]
   },
   {
     title: "Postfabrica",
     links: [
-      { href: "/manifesto", label: "Manifesto" },
-      { href: "https://github.com/shakg/postfabrica-landing-page", label: "GitHub" },
-      { href: "#iletisim", label: "İletişim" },
-      { href: "mailto:merhaba@postfabrica.co", label: "merhaba@postfabrica.co" }
+      { href: "https://github.com/shakg", label: "GitHub" },
+      { href: "mailto:1sh4kg0nu1@gmail.com", label: "Contact" },
     ]
   }
 ];
@@ -34,20 +29,21 @@ const cols = [
   <div class="container-wide py-16">
     <div class="grid md:grid-cols-12 gap-10">
       <div class="md:col-span-5">
-        <a href="#top" class="flex items-center gap-2 group">
+        <a href="/" class="flex items-center gap-2 group">
           <span class="size-7 rounded-full bg-ink grid place-items-center text-paper text-[10px] font-mono tracking-tighter">
             P/
           </span>
           <span class="font-medium tracking-tight">postfabrica</span>
-          <span class="text-muted text-xs font-mono ml-1">.co</span>
+          <span class="text-muted text-xs font-mono ml-1">.research</span>
         </a>
 
         <p class="mt-5 text-sm text-ink/70 leading-relaxed max-w-sm">
-          Türkiye’deki KOBİ’ler için saha odaklı AI otomasyon ortağı. WhatsApp, Excel ve dağınık araçlar arasında kalan işi görünür, ölçülebilir ve sahiplenilebilir akışlara dönüştürür.
+          A research hub for deep technical analysis. Source code, architecture patterns,
+          and best practices — compiled from real production codebases, not documentation pages.
         </p>
 
         <p class="mt-6 text-xs text-muted font-mono">
-          © 2026 Postfabrica · İstanbul
+          © 2026 Postfabrica
         </p>
       </div>
 
@@ -59,7 +55,7 @@ const cols = [
               <ul class="space-y-2 text-sm text-ink/70">
                 {c.links.map((l) => (
                   <li>
-                    <a href={l.href} class="hover:text-ink transition-colors">
+                    <a href={l.href} class="hover:text-ink transition-colors" target={l.href.startsWith("http") ? "_blank" : undefined} rel={l.href.startsWith("http") ? "noopener" : undefined}>
                       {l.label}
                     </a>
                   </li>
@@ -72,8 +68,8 @@ const cols = [
     </div>
 
     <div class="mt-12 pt-6 border-t border-line flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-muted font-mono">
-      <p>Postfabrica · saha odaklı otomasyon · Türkiye</p>
-      <p>Andrea Branzi’nin Post-Fabbrica konseptinden esinlenilmiştir.</p>
+      <p>Postfabrica · technical research hub</p>
+      <p>Inspired by Andrea Branzi's Post-Fabbrica concept.</p>
     </div>
   </div>
 </footer>
